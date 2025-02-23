@@ -67,4 +67,3 @@ CREATE TABLE buy_product (
 	FOREIGN KEY (product_id) REFERENCES product (id),
 	FOREIGN KEY (buy_id) REFERENCES buy (id)
 );
-
