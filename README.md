@@ -12,7 +12,7 @@
 
 Схема базы данных:
 -----------------
-![MMDB.png](../../Desktop/MMDB.png)
+![MMDB](https://raw.githubusercontent.com/yzharko/OPD_SpringSpree/2e00bafeadd66e483ef51597df0fa2368b499745/src/main/resources/images/MMDB.png)
 
 Описание таблиц:
 -----------------
