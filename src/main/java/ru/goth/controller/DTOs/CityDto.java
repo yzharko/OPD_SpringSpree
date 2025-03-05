@@ -1,16 +1,14 @@
-package ru.goth.dto;
-
-
-import java.time.Duration;
+package ru.goth.controller.DTOs;
+import java.sql.Time;
 
 public class CityDto {
     private Long id;
     private String name;
-    private String deliveryTime;
+    private Time deliveryTime;
 
     public CityDto() {
     }
-    public CityDto(String name, String deliveryTime) {
+    public CityDto(String name, Time deliveryTime) {
         this.name = name;
         this.deliveryTime = deliveryTime;
     }
@@ -26,10 +24,10 @@ public class CityDto {
     public void setName(String name) {
         this.name = name;
     }
-    public String getTime() {
+    public Time getTime() {
         return deliveryTime;
     }
-    public void setTime(String deliveryTime) {
+    public void setTime(Time deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 }
