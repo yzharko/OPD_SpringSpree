@@ -39,4 +39,12 @@ public class City {
         City city = (City) o;
         return Objects.equals(id, city.id);
     }
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", deliveryTime=" + deliveryTime +
+                '}';
+    }
 }

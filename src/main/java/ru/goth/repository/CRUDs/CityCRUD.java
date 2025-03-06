@@ -23,5 +23,28 @@ public class CityCRUD {
             logger.log(Level.SEVERE, "Ошибка при добавлении записи: " + e.getMessage(), e);
         }
     }
+    public String readAll() {
+        StringBuilder result = new StringBuilder();
+        String selectSQL = "SELECT * FROM city";
+        DBconfig dbConnection = new DBconfig();
+        Connect conn = new Connect(dbConnection);
+        try {
+            try (PreparedStatement preparedStatement = conn.getConnection().prepareStatement(selectSQL);
+                 ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    City city_ = new City();
+                    city_.setId(rs.getLong("id"));
+                    city_.setName(rs.getString("name"));
+                    city_.setTime(rs.getTime("delivery_time"));
+
+                    result.append(city_.toString()).append("\n");
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Ошибка при добавлении записи: " + e.getMessage(), e);
+        }
+        return result.toString();
+    }
+
 
 }

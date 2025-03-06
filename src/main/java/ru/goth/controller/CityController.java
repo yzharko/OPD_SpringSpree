@@ -18,5 +18,6 @@ public class CityController {
 
         City city = cityMapper.cityDtoToCity(cityDto);
         cityCRUD.create(city);
+        System.out.print(cityCRUD.readAll());
     }
 }
