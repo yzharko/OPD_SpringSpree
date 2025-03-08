@@ -8,6 +8,12 @@ public interface CityRepository {
 
     CityDto createCity(CityDto cityDtoFromService);
 
+    CityDto readCityById(Long id);
+
     List<CityDto> readAllCities();
+
+    CityDto updateCity(Long id, CityDto cityDto);
+
+    boolean deleteCity(Long id);
 }
 

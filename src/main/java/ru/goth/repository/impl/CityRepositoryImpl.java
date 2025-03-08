@@ -19,6 +19,7 @@ public class CityRepositoryImpl implements CityRepository {
     private static final Logger logger = Logger.getLogger(CityRepositoryImpl.class.getName());
     private final CityMapper cityMapper = new CityMapperImpl();
 
+    @Override
     public CityDto createCity(CityDto cityDtoFromService) {
         String createSQL = "INSERT INTO city (name, delivery_time) VALUES (?, ?)";
         DBconfig dbConnection = new DBconfig();
@@ -37,6 +38,12 @@ public class CityRepositoryImpl implements CityRepository {
         return cityMapper.toCityDto(city);
     }
 
+    @Override
+    public CityDto readCityById(Long id) {
+        return null;
+    }
+
+    @Override
     public List<CityDto> readAllCities() {
         String selectSQL = "SELECT * FROM city";
         DBconfig dbConnection = new DBconfig();
@@ -60,6 +67,16 @@ public class CityRepositoryImpl implements CityRepository {
             logger.log(Level.SEVERE, "Ошибка при добавлении записи: " + e.getMessage(), e);
         }
         return lcd;
+    }
+
+    @Override
+    public CityDto updateCity(Long id, CityDto cityDto) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteCity(Long id) {
+        return false;
     }
 
 
