@@ -8,14 +8,14 @@ import java.util.logging.Logger;
 import ru.goth.config.DBconfig;
 
 public class Connect {
+
     private static final Logger logger = Logger.getLogger(Connect.class.getName());
     Connection connection;
 
     public Connect(DBconfig dataSource) {
         try {
             this.connection = DBconfig.getDataSource().getConnection();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             logger.log(Level.SEVERE, "Ошибка при подключении к бд", e);
         }
     }
