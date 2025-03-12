@@ -7,8 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConfigLoader {
-    private static final Logger logger = Logger.getLogger(ConfigLoader.class.getName());
-    private Properties properties = new Properties();
+
+    Logger logger = Logger.getLogger(getClass().getName());
+    private final Properties properties = new Properties();
 
     public ConfigLoader() {
         try (InputStream input = getClass().getResourceAsStream("/application.properties")) {
@@ -19,8 +20,10 @@ public class ConfigLoader {
             properties.load(input);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Ошибка при загрузке application.properties", e);
+            e.printStackTrace();
         }
     }
+
     public String getDriver() {
         return properties.getProperty("db.driver");
     }
