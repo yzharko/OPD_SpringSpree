@@ -53,15 +53,15 @@ public class CityRepositoryImpl implements CityRepository {
         List<CityDto> lcd = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = conn.getConnection().prepareStatement(selectSQL);
-                 ResultSet rs = preparedStatement.executeQuery()) {
-                while (rs.next()) {
-                    City city = new City();
-                    city.setId(rs.getLong("id"));
-                    city.setName(rs.getString("name"));
-                    city.setDeliveryTime(rs.getTime("delivery_time"));
+             ResultSet rs = preparedStatement.executeQuery()) {
+            while (rs.next()) {
+                City city = new City();
+                city.setId(rs.getLong("id"));
+                city.setName(rs.getString("name"));
+                city.setDeliveryTime(rs.getTime("delivery_time"));
 
-                    lcd.add(cityMapper.toCityDto(city));
-                }
+                lcd.add(cityMapper.toCityDto(city));
+            }
 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Ошибка при добавлении записи: " + e.getMessage(), e);
