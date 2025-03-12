@@ -4,7 +4,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class DBconfig {
-    private static HikariDataSource dataSource;
+
+    private final static HikariDataSource dataSource;
 
     static {
         ConfigLoader configLoader = new ConfigLoader();
