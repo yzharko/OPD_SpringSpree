@@ -28,7 +28,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityDto readCityById(Long id) {
-        return null;
+        return cityRepository.readCityById(id);
     }
 
     @Override
@@ -38,7 +38,14 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityDto updateCity(Long id, CityDto cityDto) {
-        return null;
+        CityDto newCityDto = new CityDto(cityRepository.updateCity(
+                id,
+                cityDto.getName(),
+                cityDto.getDeliveryTime()));
+        cityDto.setId(newCityDto.getId());
+        cityDto.setName(newCityDto.getName());
+        cityDto.setDeliveryTime(newCityDto.getDeliveryTime());
+        return cityDto;
     }
 
     @Override
