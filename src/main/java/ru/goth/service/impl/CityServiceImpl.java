@@ -16,8 +16,10 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityDto createCity(CityDto cityDto) {
-        CityDto newCityDto = new CityDto(cityDto);
-        newCityDto = new CityDto(cityRepository.createCity(newCityDto));
+        CityDto newCityDto = new CityDto(cityRepository.createCity(
+                cityDto.getId(),
+                cityDto.getName(),
+                cityDto.getDeliveryTime()));
         cityDto.setId(newCityDto.getId());
         cityDto.setName(newCityDto.getName());
         cityDto.setDeliveryTime(newCityDto.getDeliveryTime());

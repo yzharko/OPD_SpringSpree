@@ -20,12 +20,13 @@ public class CityRepositoryImpl implements CityRepository {
     private final CityMapper cityMapper = new CityMapperImpl();
 
     @Override
-    public CityDto createCity(CityDto cityDtoFromService) {
+    public CityDto createCity(Long id, String name, Time deliveryTime) {
         String createSQL = "INSERT INTO city (name, delivery_time) VALUES (?, ?)";
         DBconfig dbConnection = new DBconfig();
         Connect conn = new Connect(dbConnection);
 
-        City city = cityMapper.toCity(cityDtoFromService);
+        City city = new City(name, deliveryTime);
+        city.setId(id);
 
         try (PreparedStatement preparedStatement = conn.getConnection().prepareStatement(createSQL)) {
             preparedStatement.setString(1, city.getName());
@@ -51,8 +52,7 @@ public class CityRepositoryImpl implements CityRepository {
 
         List<CityDto> lcd = new ArrayList<>();
 
-        try {
-            try (PreparedStatement preparedStatement = conn.getConnection().prepareStatement(selectSQL);
+        try (PreparedStatement preparedStatement = conn.getConnection().prepareStatement(selectSQL);
                  ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     City city = new City();
@@ -62,7 +62,7 @@ public class CityRepositoryImpl implements CityRepository {
 
                     lcd.add(cityMapper.toCityDto(city));
                 }
-            }
+
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Ошибка при добавлении записи: " + e.getMessage(), e);
         }
@@ -70,7 +70,7 @@ public class CityRepositoryImpl implements CityRepository {
     }
 
     @Override
-    public CityDto updateCity(Long id, CityDto cityDto) {
+    public CityDto updateCity(Long id, String name, Time deliveryTime) {
         return null;
     }
 

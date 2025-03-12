@@ -11,7 +11,7 @@ public class Test {
 
     public static void main(String[] args) {
         CityService cityService = new CityServiceImpl(new CityRepositoryImpl());
-        CityDto cityDto = new CityDto("Sankt-Petersburg", Time.valueOf("0:0:52"));
+        CityDto cityDto = new CityDto("Miami", Time.valueOf("06:06:06"));
         cityService.createCity(cityDto);
     }
 }
