@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class ConfigLoader {
 
-    private static final Logger logger = Logger.getLogger(ConfigLoader.class.getName());
+    Logger logger = Logger.getLogger(getClass().getName());
     private final Properties properties = new Properties();
 
     public ConfigLoader() {
@@ -20,6 +20,7 @@ public class ConfigLoader {
             properties.load(input);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Ошибка при загрузке application.properties", e);
+            e.printStackTrace();
         }
     }
 
