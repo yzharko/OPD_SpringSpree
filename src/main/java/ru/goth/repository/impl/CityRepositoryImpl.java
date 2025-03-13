@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ru.goth.domain.entities.dto.CityDto;
@@ -18,13 +19,12 @@ import ru.goth.repository.CityRepository;
 
 public class CityRepositoryImpl implements CityRepository {
 
-    private static final Logger logger = Logger.getLogger(CityRepositoryImpl.class.getName());
+    Logger logger = Logger.getLogger(getClass().getName());
     private final CityMapper cityMapper = new CityMapperImpl();
-    private final DBconfig dbConnection = new DBconfig();
 
     @Override
     public CityDto createCity(Long id, String name, Time deliveryTime) {
-        try (Connection con = dbConnection.getConnection();
+        try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "INSERT INTO city (name, delivery_time) " +
                              "VALUES (?, ?)")) {
@@ -44,7 +44,7 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public CityDto readCityById(Long id) {
-        try (Connection con = dbConnection.getConnection();
+        try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT id, name, delivery_time " +
                              "FROM city " +
@@ -68,7 +68,7 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public List<CityDto> readAllCities() {
-        try (Connection con = dbConnection.getConnection();
+        try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT * FROM city");
              ResultSet rs = statement.executeQuery()) {
@@ -90,7 +90,7 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public CityDto updateCity(Long id, String name, Time deliveryTime) {
-        try (Connection conn = dbConnection.getConnection();
+        try (Connection conn = DBconfig.getConnection();
              PreparedStatement statement = conn.prepareStatement(
                      "UPDATE city " +
                              "SET name = ?, delivery_time = ? " +
@@ -114,6 +114,13 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public boolean deleteCity(Long id) {
+        try (Connection conn = DBconfig.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM customer WHERE id = ?")) {
+            preparedStatement.setLong(1, id);
+            return true;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Ошибка при удалении", e);
+        }
         return false;
     }
 
