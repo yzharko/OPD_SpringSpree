@@ -15,4 +15,6 @@ public interface CityService {
     CityDto updateCity(Long id, CityDto cityDto);
 
     boolean deleteCity(Long id);
+
+    Long existCity(String name);
 }
