@@ -2,8 +2,9 @@ package ru.goth.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 public class DBconfig {
 
     private final static HikariDataSource dataSource;
-    private static final Logger log = LoggerFactory.getLogger(DBconfig.class);
+    private static final Logger log = Logger.getLogger(DBconfig.class.getName());
 
     static {
         ConfigLoader configLoader = new ConfigLoader();
@@ -25,16 +26,18 @@ public class DBconfig {
         dataSource = new HikariDataSource(config);
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.log(Level.SEVERE, "Ошибка при соединении с бд", e);
+            e.printStackTrace();
         }
         return null;
     }
 
-    public static HikariDataSource getDataSource() {
-        return dataSource;
+    private DBconfig() {
+        throw new IllegalStateException("Utility class");
     }
+
 }
