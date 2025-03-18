@@ -115,13 +115,32 @@ public class CityRepositoryImpl implements CityRepository {
     @Override
     public boolean deleteCity(Long id) {
         try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM customer WHERE id = ?")) {
+             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM city WHERE id = ?")) {
             preparedStatement.setLong(1, id);
-            return true;
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Ошибка при удалении", e);
         }
         return false;
+    }
+
+    @Override
+    public Long existCity(String name) {
+        Long id = null;
+        try (Connection conn = DBconfig.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT id FROM city WHERE name = ?")) {
+
+            preparedStatement.setString(1, name);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getLong("id");
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Ошибка при проверке", e);
+        }
+        return id;
     }
 
 
