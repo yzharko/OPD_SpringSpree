@@ -456,6 +456,7 @@ COPY public.city (id, name, delivery_time) FROM stdin;
 1	New York	01:30:00
 2	London	02:00:00
 3	Tokyo	03:00:00
+4	Miami	06:06:06
 \.
 
 
@@ -536,7 +537,7 @@ SELECT pg_catalog.setval('public.category_id_seq', 3, true);
 -- Name: city_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.city_id_seq', 3, true);
+SELECT pg_catalog.setval('public.city_id_seq', 4, true);
 
 
 --
