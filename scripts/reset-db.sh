@@ -4,7 +4,9 @@ set -e
 CONTAINER_NAME="postgres_container"
 DB_USER="postgres"
 DB_NAME="postgres"
+
 BACKUP_BEFORE_RESET="../src/main/resources/sql/backup/backup_before_reset.sql"
+
 # You can view the volume name using the "docker volume ls" command.
 PG_VOLUME="opd_springspree_pg_data"
 

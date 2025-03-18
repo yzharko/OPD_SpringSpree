@@ -2,7 +2,9 @@
 CONTAINER_NAME="postgres_container"
 DB_USER="postgres"
 DB_NAME="postgres"
+
 BACKUP_FILE="../src/main/resources/sql/backup/backup.sql"
+
 
 echo "Creating a backup copy..."
 
