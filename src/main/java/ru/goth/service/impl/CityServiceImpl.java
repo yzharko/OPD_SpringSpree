@@ -1,6 +1,6 @@
 package ru.goth.service.impl;
 
-import ru.goth.domain.entities.dto.CityDto;
+import ru.goth.domain.dto.CityDto;
 import ru.goth.repository.impl.CityRepositoryImpl;
 import ru.goth.service.CityService;
 
@@ -27,13 +27,13 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityDto readCityById(Long id) {
-        return cityRepository.readCityById(id);
+    public CityDto getCityById(Long id) {
+        return cityRepository.getCityById(id);
     }
 
     @Override
-    public List<CityDto> readAllCities() {
-        return cityRepository.readAllCities();
+    public List<CityDto> getAllCities() {
+        return cityRepository.getAllCities();
     }
 
     @Override
