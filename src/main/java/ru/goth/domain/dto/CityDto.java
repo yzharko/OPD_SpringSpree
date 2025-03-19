@@ -1,4 +1,4 @@
-package ru.goth.domain.entities.dto;
+package ru.goth.domain.dto;
 
 import java.sql.Time;
 

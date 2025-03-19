@@ -1,13 +1,16 @@
 package ru.goth.repository.impl;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ru.goth.domain.entities.dto.CityDto;
+import ru.goth.domain.dto.CityDto;
 import ru.goth.domain.entities.City;
 import ru.goth.config.DBconfig;
 import ru.goth.domain.mappers.CityMapper;
@@ -39,11 +42,10 @@ public class CityRepositoryImpl implements CityRepository {
             logger.info(e.getMessage());
             return null;
         }
-
     }
 
     @Override
-    public CityDto readCityById(Long id) {
+    public CityDto getCityById(Long id) {
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT id, name, delivery_time " +
@@ -67,7 +69,7 @@ public class CityRepositoryImpl implements CityRepository {
     }
 
     @Override
-    public List<CityDto> readAllCities() {
+    public List<CityDto> getAllCities() {
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT * FROM city");
@@ -85,7 +87,6 @@ public class CityRepositoryImpl implements CityRepository {
             logger.info(e.getMessage());
             return Collections.emptyList();
         }
-
     }
 
     @Override
@@ -108,8 +109,6 @@ public class CityRepositoryImpl implements CityRepository {
             logger.info(e.getMessage());
             return null;
         }
-
-
     }
 
     @Override
@@ -123,6 +122,4 @@ public class CityRepositoryImpl implements CityRepository {
         }
         return false;
     }
-
-
 }
