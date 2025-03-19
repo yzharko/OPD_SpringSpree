@@ -10,17 +10,19 @@ public class ConfigLoader {
 
     Logger logger = Logger.getLogger(getClass().getName());
     private final Properties properties = new Properties();
-    private static final InputStream inputConst = null;
+    private static final String pathToProperties = "/application.properties";
+    private static final String ERROR_fileNotFound = "Файл application.properties не найден";
+    private static final String ERROR_troublesWithFileLoad = "Ошибка при загрузке application.properties";
 
     public ConfigLoader() {
-        try (InputStream input = getClass().getResourceAsStream("/application.properties")) {
-            if (input == inputConst) {
-                logger.log(Level.SEVERE, "Файл application.properties не найден");
+        try (InputStream input = getClass().getResourceAsStream(pathToProperties)) {
+            if (input == null) {
+                logger.log(Level.SEVERE, ERROR_fileNotFound);
                 return;
             }
             properties.load(input);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Ошибка при загрузке application.properties", e);
+            logger.log(Level.SEVERE, ERROR_troublesWithFileLoad, e);
             e.printStackTrace();
         }
     }

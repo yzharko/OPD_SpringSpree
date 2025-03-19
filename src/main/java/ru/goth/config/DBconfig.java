@@ -13,9 +13,11 @@ public class DBconfig {
 
     private final static HikariDataSource dataSource;
     private static final Logger log = Logger.getLogger(DBconfig.class.getName());
+    private static final String ERROR_connectWithBD = "Ошибка при соединении с бд";
+    private static final String ERROR_tryingToCreateAnInstance = "Utility class";
 
     private DBconfig() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException(ERROR_tryingToCreateAnInstance);
     }
 
     static {
@@ -34,7 +36,7 @@ public class DBconfig {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            log.log(Level.SEVERE, "Ошибка при соединении с бд", e);
+            log.log(Level.SEVERE, ERROR_connectWithBD, e);
             e.printStackTrace();
         }
         return null;
