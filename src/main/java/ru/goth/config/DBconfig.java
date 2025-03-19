@@ -14,6 +14,10 @@ public class DBconfig {
     private final static HikariDataSource dataSource;
     private static final Logger log = Logger.getLogger(DBconfig.class.getName());
 
+    private DBconfig() {
+        throw new IllegalStateException("Utility class");
+    }
+
     static {
         ConfigLoader configLoader = new ConfigLoader();
         HikariConfig config = new HikariConfig();
@@ -35,9 +39,4 @@ public class DBconfig {
         }
         return null;
     }
-
-    private DBconfig() {
-        throw new IllegalStateException("Utility class");
-    }
-
 }

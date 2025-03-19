@@ -10,10 +10,11 @@ public class ConfigLoader {
 
     Logger logger = Logger.getLogger(getClass().getName());
     private final Properties properties = new Properties();
+    private static final InputStream inputConst = null;
 
     public ConfigLoader() {
         try (InputStream input = getClass().getResourceAsStream("/application.properties")) {
-            if (input == null) {
+            if (input == inputConst) {
                 logger.log(Level.SEVERE, "Файл application.properties не найден");
                 return;
             }

@@ -39,7 +39,7 @@ public class CityRepositoryImpl implements CityRepository {
             logger.info("Запись добавлена, затронуто строк: " + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, "Ошибка при добавлении", e);
             return null;
         }
     }
@@ -63,7 +63,7 @@ public class CityRepositoryImpl implements CityRepository {
             }
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, "Ошибка при чтении по айди", e);
             return null;
         }
     }
@@ -84,7 +84,7 @@ public class CityRepositoryImpl implements CityRepository {
             }
             return lcd;
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, "Ошибка при чтении всего", e);
             return Collections.emptyList();
         }
     }
@@ -106,7 +106,7 @@ public class CityRepositoryImpl implements CityRepository {
             logger.info("Запись обновлена, затронуто строк: " + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, "Ошибка при обновлении", e);
             return null;
         }
     }
