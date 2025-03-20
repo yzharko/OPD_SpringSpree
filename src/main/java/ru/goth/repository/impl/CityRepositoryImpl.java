@@ -20,6 +20,14 @@ import java.sql.Connection;
 
 import ru.goth.repository.CityRepository;
 
+import static ru.goth.repository.RepositoryConstants.ERROR_IN_CREATE;
+import static ru.goth.repository.RepositoryConstants.ERROR_IN_DELETE;
+import static ru.goth.repository.RepositoryConstants.ERROR_IN_UPDATE;
+import static ru.goth.repository.RepositoryConstants.ERROR_IN_READ_BY_ID;
+import static ru.goth.repository.RepositoryConstants.ERROR_IN_READ_ALL;
+import static ru.goth.repository.RepositoryConstants.ROWS_UPDATED;
+import static ru.goth.repository.RepositoryConstants.ROWS_ADDED;
+
 public class CityRepositoryImpl implements CityRepository {
 
     Logger logger = Logger.getLogger(getClass().getName());
@@ -36,10 +44,10 @@ public class CityRepositoryImpl implements CityRepository {
             statement.setString(1, city.getName());
             statement.setTime(2, city.getDeliveryTime());
             int rowsAffected = statement.executeUpdate();
-            logger.info("Запись добавлена, затронуто строк: " + rowsAffected);
+            logger.info(ROWS_ADDED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при добавлении", e);
+            logger.log(Level.SEVERE, ERROR_IN_CREATE, e);
             return null;
         }
     }
@@ -63,7 +71,7 @@ public class CityRepositoryImpl implements CityRepository {
             }
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при чтении по айди", e);
+            logger.log(Level.SEVERE, ERROR_IN_READ_BY_ID, e);
             return null;
         }
     }
@@ -84,7 +92,7 @@ public class CityRepositoryImpl implements CityRepository {
             }
             return lcd;
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при чтении всего", e);
+            logger.log(Level.SEVERE, ERROR_IN_READ_ALL, e);
             return Collections.emptyList();
         }
     }
@@ -103,10 +111,10 @@ public class CityRepositoryImpl implements CityRepository {
             statement.setTime(2, city.getDeliveryTime());
             statement.setLong(3, city.getId());
             int rowsAffected = statement.executeUpdate();
-            logger.info("Запись обновлена, затронуто строк: " + rowsAffected);
+            logger.info(ROWS_UPDATED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при обновлении", e);
+            logger.log(Level.SEVERE, ERROR_IN_UPDATE, e);
             return null;
         }
     }
@@ -118,7 +126,7 @@ public class CityRepositoryImpl implements CityRepository {
             preparedStatement.setLong(1, id);
             return true;
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при удалении", e);
+            logger.log(Level.SEVERE, ERROR_IN_DELETE, e);
         }
         return false;
     }
