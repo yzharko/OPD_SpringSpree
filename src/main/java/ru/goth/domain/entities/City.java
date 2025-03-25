@@ -42,17 +42,20 @@ public class City {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass()
-                != o.getClass()) return false;
-        City city = (City) o;
-        return Objects.equals(id, city.id);
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        City city = (City) object;
+        return Objects.equals(id, city.id) &&
+                Objects.equals(name, city.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        if (name != null) {
+            return 31 * name.hashCode() + deliveryTime.hashCode();
+        }
+        return 0;
     }
 
     @Override

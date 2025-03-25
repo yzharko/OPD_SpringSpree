@@ -1,13 +1,16 @@
 package ru.goth.repository.impl;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ru.goth.domain.entities.dto.CityDto;
+import ru.goth.domain.dto.CityDto;
 import ru.goth.domain.entities.City;
 import ru.goth.config.DBconfig;
 import ru.goth.domain.mappers.CityMapper;
@@ -16,6 +19,14 @@ import ru.goth.domain.mappers.CityMapperImpl;
 import java.sql.Connection;
 
 import ru.goth.repository.CityRepository;
+
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_CREATE;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_BY_ID;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_ALL;
+import static ru.goth.constants.RepositoryConstants.ROWS_UPDATED;
+import static ru.goth.constants.RepositoryConstants.ROWS_ADDED;
 
 public class CityRepositoryImpl implements CityRepository {
 
@@ -33,17 +44,16 @@ public class CityRepositoryImpl implements CityRepository {
             statement.setString(1, city.getName());
             statement.setTime(2, city.getDeliveryTime());
             int rowsAffected = statement.executeUpdate();
-            logger.info("Запись добавлена, затронуто строк: " + rowsAffected);
+            logger.info(ROWS_ADDED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, ERROR_IN_CREATE, e);
             return null;
         }
-
     }
 
     @Override
-    public CityDto readCityById(Long id) {
+    public CityDto getCityById(Long id) {
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT id, name, delivery_time " +
@@ -61,13 +71,13 @@ public class CityRepositoryImpl implements CityRepository {
             }
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, ERROR_IN_READ_BY_ID, e);
             return null;
         }
     }
 
     @Override
-    public List<CityDto> readAllCities() {
+    public List<CityDto> getAllCities() {
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT * FROM city");
@@ -82,10 +92,9 @@ public class CityRepositoryImpl implements CityRepository {
             }
             return lcd;
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, ERROR_IN_READ_ALL, e);
             return Collections.emptyList();
         }
-
     }
 
     @Override
@@ -102,46 +111,23 @@ public class CityRepositoryImpl implements CityRepository {
             statement.setTime(2, city.getDeliveryTime());
             statement.setLong(3, city.getId());
             int rowsAffected = statement.executeUpdate();
-            logger.info("Запись обновлена, затронуто строк: " + rowsAffected);
+            logger.info(ROWS_UPDATED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, ERROR_IN_UPDATE, e);
             return null;
         }
-
-
     }
 
     @Override
     public boolean deleteCity(Long id) {
         try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM city WHERE id = ?")) {
+             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM customer WHERE id = ?")) {
             preparedStatement.setLong(1, id);
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
+            return true;
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при удалении", e);
+            logger.log(Level.SEVERE, ERROR_IN_DELETE, e);
         }
         return false;
     }
-
-    @Override
-    public Long existCity(String name) {
-        Long id = null;
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("SELECT id FROM city WHERE name = ?")) {
-
-            preparedStatement.setString(1, name);
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                id = rs.getLong("id");
-            }
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при проверке", e);
-        }
-        return id;
-    }
-
-
 }
