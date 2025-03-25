@@ -16,4 +16,6 @@ public interface CityRepository {
     CityDto updateCity(Long id, String name, Time deliveryTime);
 
     boolean deleteCity(Long id);
+
+    Long existCity(String name);
 }
