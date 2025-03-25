@@ -43,4 +43,3 @@ public class ConfigLoader {
         return properties.getProperty("db.password");
     }
 }
-
