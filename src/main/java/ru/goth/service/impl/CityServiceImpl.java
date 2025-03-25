@@ -49,7 +49,8 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public boolean deleteCity(Long id) {
-        return false;
-    }
+    public boolean deleteCity(Long id) { return cityRepository.deleteCity(id); }
+
+    @Override
+    public Long existCity(String name) { return cityRepository.existCity(name); }
 }
