@@ -13,6 +13,12 @@ public class DBconfig {
 
     private final static HikariDataSource dataSource;
     private static final Logger log = Logger.getLogger(DBconfig.class.getName());
+    private static final String ERROR_CONNECT_WITH_BD = "Ошибка при соединении с бд";
+    private static final String ERROR_TRYING_TO_CREATE_AN_INSTANCE = "Utility class";
+
+    private DBconfig() {
+        throw new IllegalStateException(ERROR_TRYING_TO_CREATE_AN_INSTANCE);
+    }
 
     static {
         ConfigLoader configLoader = new ConfigLoader();
@@ -30,14 +36,9 @@ public class DBconfig {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            log.log(Level.SEVERE, "Ошибка при соединении с бд", e);
+            log.log(Level.SEVERE, ERROR_CONNECT_WITH_BD, e);
             e.printStackTrace();
         }
         return null;
     }
-
-    private DBconfig() {
-        throw new IllegalStateException("Utility class");
-    }
-
 }
