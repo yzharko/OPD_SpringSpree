@@ -21,10 +21,11 @@ import java.sql.Connection;
 import ru.goth.repository.CityRepository;
 
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_CREATE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_BY_ID;
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_ALL;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_CHECK;
 import static ru.goth.constants.RepositoryConstants.ROWS_UPDATED;
 import static ru.goth.constants.RepositoryConstants.ROWS_ADDED;
 
@@ -127,7 +128,7 @@ public class CityRepositoryImpl implements CityRepository {
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при удалении", e);
+            logger.log(Level.SEVERE, ERROR_IN_DELETE, e);
         }
         return false;
     }
@@ -145,7 +146,7 @@ public class CityRepositoryImpl implements CityRepository {
                 id = rs.getLong("id");
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Ошибка при проверке", e);
+            logger.log(Level.SEVERE, ERROR_IN_CHECK, e);
         }
         return id;
     }
