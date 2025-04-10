@@ -120,7 +120,7 @@ public class CityRepositoryImpl implements CityRepository {
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, ERROR_IN_DELETE, e);
+            logger.log(Level.SEVERE, "Ошибка при удалении", e);
         }
         return false;
     }
