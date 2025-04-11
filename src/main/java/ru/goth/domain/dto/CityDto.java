@@ -1,17 +1,21 @@
-package ru.goth.domain.entities.dto;
+package ru.goth.domain.dto;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 
 public class CityDto {
 
     private Long id;
     private String name;
-    private Time deliveryTime;
+    @SerializedName("delivery_time")
+    private Long deliveryTime;
 
     public CityDto() {
     }
 
-    public CityDto(String name, Time deliveryTime) {
+    public CityDto(String name, Long deliveryTime) {
         this.name = name;
         this.deliveryTime = deliveryTime;
     }
@@ -38,11 +42,11 @@ public class CityDto {
         this.name = name;
     }
 
-    public Time getDeliveryTime() {
+    public Long getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Time deliveryTime) {
+    public void setDeliveryTime(Long deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 }
