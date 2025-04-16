@@ -3,7 +3,6 @@ package ru.goth.repository.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,13 +19,15 @@ import java.sql.Connection;
 
 import ru.goth.repository.CityRepository;
 
+import static ru.goth.constants.RepositoryConstants.*;
+
 public class CityRepositoryImpl implements CityRepository {
 
     Logger logger = Logger.getLogger(getClass().getName());
     private final CityMapper cityMapper = new CityMapperImpl();
 
     @Override
-    public CityDto createCity(Long id, String name, Time deliveryTime) {
+    public CityDto createCity(Long id, String name, Long deliveryTime) {
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "INSERT INTO city (name, delivery_time) " +
@@ -34,12 +35,12 @@ public class CityRepositoryImpl implements CityRepository {
             City city = new City(name, deliveryTime);
             city.setId(id);
             statement.setString(1, city.getName());
-            statement.setTime(2, city.getDeliveryTime());
+            statement.setLong(2, city.getDeliveryTime());
             int rowsAffected = statement.executeUpdate();
-            logger.info("Запись добавлена, затронуто строк: " + rowsAffected);
+            logger.info(ROWS_ADDED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, ERROR_IN_CREATE, e);
             return null;
         }
     }
@@ -59,11 +60,11 @@ public class CityRepositoryImpl implements CityRepository {
             while (resultSet.next()) {
                 city.setId(resultSet.getLong("id"));
                 city.setName(resultSet.getString("name"));
-                city.setDeliveryTime(resultSet.getTime("delivery_time"));
+                city.setDeliveryTime(resultSet.getLong("delivery_time"));
             }
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, ERROR_IN_READ_BY_ID, e);
             return null;
         }
     }
@@ -79,18 +80,18 @@ public class CityRepositoryImpl implements CityRepository {
                 City city = new City();
                 city.setId(rs.getLong("id"));
                 city.setName(rs.getString("name"));
-                city.setDeliveryTime(rs.getTime("delivery_time"));
+                city.setDeliveryTime(rs.getLong("delivery_time"));
                 lcd.add(cityMapper.toCityDto(city));
             }
             return lcd;
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, ERROR_IN_READ_ALL, e);
             return Collections.emptyList();
         }
     }
 
     @Override
-    public CityDto updateCity(Long id, String name, Time deliveryTime) {
+    public CityDto updateCity(Long id, String name, Long deliveryTime) {
         try (Connection conn = DBconfig.getConnection();
              PreparedStatement statement = conn.prepareStatement(
                      "UPDATE city " +
@@ -100,13 +101,13 @@ public class CityRepositoryImpl implements CityRepository {
             city.setId(id);
 
             statement.setString(1, city.getName());
-            statement.setTime(2, city.getDeliveryTime());
+            statement.setLong(2, city.getDeliveryTime());
             statement.setLong(3, city.getId());
             int rowsAffected = statement.executeUpdate();
-            logger.info("Запись обновлена, затронуто строк: " + rowsAffected);
+            logger.info(ROWS_UPDATED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.log(Level.SEVERE, ERROR_IN_UPDATE, e);
             return null;
         }
     }
@@ -114,12 +115,31 @@ public class CityRepositoryImpl implements CityRepository {
     @Override
     public boolean deleteCity(Long id) {
         try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM customer WHERE id = ?")) {
+             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM city WHERE id = ?")) {
             preparedStatement.setLong(1, id);
-            return true;
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Ошибка при удалении", e);
         }
         return false;
+    }
+
+    @Override
+    public Long existCity(String name) {
+        Long id = null;
+        try (Connection conn = DBconfig.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT id FROM city WHERE name = ?")) {
+
+            preparedStatement.setString(1, name);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getLong("id");
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, ERROR_IN_EXIST, e);
+        }
+        return id;
     }
 }
