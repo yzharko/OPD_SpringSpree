@@ -19,7 +19,14 @@ import java.sql.Connection;
 
 import ru.goth.repository.CityRepository;
 
-import static ru.goth.constants.RepositoryConstants.*;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_CREATE;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_BY_ID;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_ALL;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_CHECK;
+import static ru.goth.constants.RepositoryConstants.ROWS_UPDATED;
+import static ru.goth.constants.RepositoryConstants.ROWS_ADDED;
 
 public class CityRepositoryImpl implements CityRepository {
 
