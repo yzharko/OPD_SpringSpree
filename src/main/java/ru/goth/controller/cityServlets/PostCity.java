@@ -1,46 +1,38 @@
-package ru.goth.web;
+package ru.goth.controller.cityServlets;
 
 import com.google.gson.Gson;
-import jakarta.servlet.ServletException;
+import ru.goth.config.JsonConvertor;
+
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.goth.domain.dto.CityDto;
-import ru.goth.repository.impl.CityRepositoryImpl;
 import ru.goth.service.CityService;
-import ru.goth.service.impl.CityServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Time;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.logging.Logger;
 
-@WebServlet("/city")
-public class CityServlet extends HttpServlet {
+@WebServlet(name = "getCity", value = "/getCity")
+public class PostCity extends HttpServlet {
+    private static final Logger logger = Logger.getLogger(GetCity.class.getName());
     private static final Gson gson = new Gson();
-    private CityService cityService;
+    private final CityService cityService;
 
-    @Override
-    public void init() {
-        cityService = new CityServiceImpl(new CityRepositoryImpl());
-    }
+//    public GetCity() throws SQLException {
+//        this.cityService = new CityService();
+//    }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
-
-        List<CityDto> citys = cityService.getAllCities();
-
-        out.println("Cities list:");
-        for (CityDto city : citys) {
-            out.println(city.getName() + " " + city.getDeliveryTime());
-        }
+    public PostCity(CityService cityService) {
+        this.cityService = cityService;
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //response.setContentType("text/html");
+
         try {
             BufferedReader reader = request.getReader();
             CityDto newCity = gson.fromJson(reader, CityDto.class);
