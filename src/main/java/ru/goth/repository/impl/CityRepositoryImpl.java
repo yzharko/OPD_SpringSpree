@@ -3,7 +3,6 @@ package ru.goth.repository.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +34,7 @@ public class CityRepositoryImpl implements CityRepository {
     private final CityMapper cityMapper = new CityMapperImpl();
 
     @Override
-    public CityDto createCity(Long id, String name, Time deliveryTime) {
+    public CityDto createCity(Long id, String name, Long deliveryTime) {
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "INSERT INTO city (name, delivery_time) " +
@@ -43,7 +42,7 @@ public class CityRepositoryImpl implements CityRepository {
             City city = new City(name, deliveryTime);
             city.setId(id);
             statement.setString(1, city.getName());
-            statement.setTime(2, city.getDeliveryTime());
+            statement.setLong(2, city.getDeliveryTime());
             int rowsAffected = statement.executeUpdate();
             logger.info(ROWS_ADDED + rowsAffected);
             return cityMapper.toCityDto(city);
@@ -68,7 +67,7 @@ public class CityRepositoryImpl implements CityRepository {
             while (resultSet.next()) {
                 city.setId(resultSet.getLong("id"));
                 city.setName(resultSet.getString("name"));
-                city.setDeliveryTime(resultSet.getTime("delivery_time"));
+                city.setDeliveryTime(resultSet.getLong("delivery_time"));
             }
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
@@ -88,7 +87,7 @@ public class CityRepositoryImpl implements CityRepository {
                 City city = new City();
                 city.setId(rs.getLong("id"));
                 city.setName(rs.getString("name"));
-                city.setDeliveryTime(rs.getTime("delivery_time"));
+                city.setDeliveryTime(rs.getLong("delivery_time"));
                 lcd.add(cityMapper.toCityDto(city));
             }
             return lcd;
@@ -99,7 +98,7 @@ public class CityRepositoryImpl implements CityRepository {
     }
 
     @Override
-    public CityDto updateCity(Long id, String name, Time deliveryTime) {
+    public CityDto updateCity(Long id, String name, Long deliveryTime) {
         try (Connection conn = DBconfig.getConnection();
              PreparedStatement statement = conn.prepareStatement(
                      "UPDATE city " +
@@ -109,7 +108,7 @@ public class CityRepositoryImpl implements CityRepository {
             city.setId(id);
 
             statement.setString(1, city.getName());
-            statement.setTime(2, city.getDeliveryTime());
+            statement.setLong(2, city.getDeliveryTime());
             statement.setLong(3, city.getId());
             int rowsAffected = statement.executeUpdate();
             logger.info(ROWS_UPDATED + rowsAffected);
@@ -146,7 +145,7 @@ public class CityRepositoryImpl implements CityRepository {
                 id = rs.getLong("id");
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, ERROR_IN_CHECK, e);
+            logger.log(Level.SEVERE, ERROR_IN_EXIST, e);
         }
         return id;
     }
