@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>City Search</title>
+    <title>City Management</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -16,7 +16,7 @@
 
         .container {
             width: 80%;
-            max-width: 600px;
+            max-width: 800px;
             background: white;
             padding: 30px;
             border-radius: 8px;
@@ -31,52 +31,44 @@
             border-bottom: 1px solid #eaeaea;
         }
 
-        form {
-            margin-top: 20px;
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        .action-card {
+            padding: 20px;
+            border: 1px solid #eaeaea;
+            border-radius: 6px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-card h2 {
             color: #34495e;
+            margin-top: 0;
+            font-weight: bold;
         }
 
-        /*h2 {*/
-        /*    color: #34495e;*/
-        /*    margin-top: 0;*/
-        /*    margin-bottom: 15px;*/
-        /*    font-weight: bold;*/
-        /*}*/
-
-        input[type="number"] {
-            padding: 10px;
-            width: 100px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-right: 10px;
-        }
-
-        input[type="submit"] {
+        .action-card a {
+            display: inline-block;
             padding: 10px 20px;
             background-color: #3497da;
             color: white;
-            border: none;
+            text-decoration: none;
             border-radius: 4px;
-            cursor: pointer;
             transition: background-color 0.3s;
         }
 
-        input[type="submit"]:hover {
+        .action-card a:hover {
             background-color: #287eb6;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
         }
 
         .back-link {
@@ -96,31 +88,32 @@
             border-color: #ccc;
         }
 
-        .actions {
+        .back-container {
             text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>City Search</h1>
-
-    <form action="getCity" method="get">
-        <label>Get city by ID:</label>
-        <div class="form-group">
-            <input type="number" id="cityId" name="id" required min="1">
-            <input type="submit" value="Search by ID">
-        </div>
-    </form>
-
-    <form action="getCity" method="get">
-        <label>Get all cities:</label>
-        <input type="hidden" name="action" value="all">
-        <input type="submit" value="Show all cities">
-    </form>
+    <h1>City Management</h1>
 
     <div class="actions">
-        <a href="cityManage.jsp" class="back-link">← Back</a>
+        <div class="action-card">
+            <h2>Get City Information</h2>
+            <p>Search for existing cities by ID or view all cities</p>
+            <a href="getCity.jsp">Go to Get City</a>
+        </div>
+
+        <div class="action-card">
+            <h2>Add New City</h2>
+            <p>Create a new city entry in the database</p>
+            <a href="postCity.jsp">Go to Add City</a>
+        </div>
+    </div>
+
+    <div class="back-container">
+        <a href="index.jsp" class="back-link">← Back</a>
     </div>
 </div>
 </body>

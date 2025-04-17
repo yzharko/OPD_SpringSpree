@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>City Search</title>
+    <title>Add New City</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -16,7 +16,7 @@
 
         .container {
             width: 80%;
-            max-width: 600px;
+            max-width: 500px;
             background: white;
             padding: 30px;
             border-radius: 8px;
@@ -46,33 +46,29 @@
             color: #34495e;
         }
 
-        /*h2 {*/
-        /*    color: #34495e;*/
-        /*    margin-top: 0;*/
-        /*    margin-bottom: 15px;*/
-        /*    font-weight: bold;*/
-        /*}*/
-
+        input[type="text"],
         input[type="number"] {
+            width: 100%;
             padding: 10px;
-            width: 100px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-right: 10px;
+            box-sizing: border-box;
         }
 
         input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #3497da;
+            width: 100%;
+            padding: 12px;
+            background-color: #27ae60;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
             transition: background-color 0.3s;
         }
 
         input[type="submit"]:hover {
-            background-color: #287eb6;
+            background-color: #219653;
         }
 
         .form-group {
@@ -103,20 +99,20 @@
 </head>
 <body>
 <div class="container">
-    <h1>City Search</h1>
+    <h1>Add New City</h1>
 
-    <form action="getCity" method="get">
-        <label>Get city by ID:</label>
+    <form action="postCity" method="post">
         <div class="form-group">
-            <input type="number" id="cityId" name="id" required min="1">
-            <input type="submit" value="Search by ID">
+            <label for="cityName">City Name:</label>
+            <input type="text" id="cityName" name="name" required>
         </div>
-    </form>
 
-    <form action="getCity" method="get">
-        <label>Get all cities:</label>
-        <input type="hidden" name="action" value="all">
-        <input type="submit" value="Show all cities">
+        <div class="form-group">
+            <label for="deliveryTime">Delivery Time (hours):</label>
+            <input type="number" id="deliveryTime" name="deliveryTime" required min="1">
+        </div>
+
+        <input type="submit" value="Add City">
     </form>
 
     <div class="actions">
