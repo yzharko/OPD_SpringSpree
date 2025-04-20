@@ -110,6 +110,18 @@
             <p>Create a new city entry in the database</p>
             <a href="postCity.jsp">Go to Add City</a>
         </div>
+
+        <div class="action-card">
+            <h2>Delete City</h2>
+            <p>Remove a city from the database</p>
+            <a href="deleteCity.jsp">Go to Delete City</a>
+        </div>
+
+        <div class="action-card">
+            <h2>Update City</h2>
+            <p>Modify existing city information</p>
+            <a href="updateCity.jsp">Go to Update City</a>
+        </div>
     </div>
 
     <div class="back-container">

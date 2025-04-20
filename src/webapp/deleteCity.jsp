@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>City Search</title>
+    <title>Delete City</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -16,7 +16,7 @@
 
         .container {
             width: 80%;
-            max-width: 600px;
+            max-width: 500px;
             background: white;
             padding: 30px;
             border-radius: 8px;
@@ -46,37 +46,28 @@
             color: #34495e;
         }
 
-        /*h2 {*/
-        /*    color: #34495e;*/
-        /*    margin-top: 0;*/
-        /*    margin-bottom: 15px;*/
-        /*    font-weight: bold;*/
-        /*}*/
-
         input[type="number"] {
+            width: 100%;
             padding: 10px;
-            width: 100px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-right: 10px;
+            box-sizing: border-box;
         }
 
         input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #3497da;
+            width: 100%;
+            padding: 12px;
+            background-color: #e74c3c;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
             transition: background-color 0.3s;
         }
 
         input[type="submit"]:hover {
-            background-color: #287eb6;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
+            background-color: #c0392b;
         }
 
         .back-link {
@@ -96,6 +87,18 @@
             border-color: #ccc;
         }
 
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .success-message {
+            color: #27ae60;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
         .actions {
             text-align: center;
         }
@@ -103,20 +106,21 @@
 </head>
 <body>
 <div class="container">
-    <h1>City Search</h1>
+    <h1>Delete City</h1>
 
-    <form action="getCity" method="get">
-        <label>Get city by ID:</label>
+    <% if (request.getParameter("error") != null) { %>
+    <div class="error-message">
+        Error: <%= request.getParameter("error").replace("+", " ") %>
+    </div>
+    <% } %>
+
+    <form action="deleteCity" method="post">
         <div class="form-group">
+            <label for="cityId">City ID:</label>
             <input type="number" id="cityId" name="id" required min="1">
-            <input type="submit" value="Search by ID">
         </div>
-    </form>
 
-    <form action="getCity" method="get">
-        <label>Get all cities:</label>
-        <input type="hidden" name="action" value="all">
-        <input type="submit" value="Show all cities">
+        <input type="submit" value="Delete City">
     </form>
 
     <div class="actions">

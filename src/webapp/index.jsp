@@ -66,11 +66,11 @@
 </head>
 <body>
 <div class="container">
-    <h1>Welcome to Myth Mastery!</h1>
+    <h1>Myth Mastery Management (MMM)</h1>
 
     <h2>Navigation</h2>
     <ul>
-        <li><a href="cityManage.jsp">City Management</a></li>
+        <li><a href="manageCity.jsp">City Management</a></li>
     </ul>
 </div>
 </body>

@@ -116,7 +116,7 @@
     </form>
 
     <div class="actions">
-        <a href="cityManage.jsp" class="back-link">← Back</a>
+        <a href="manageCity.jsp" class="back-link">← Back</a>
     </div>
 </div>
 </body>
