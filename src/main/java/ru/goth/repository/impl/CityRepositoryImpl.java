@@ -54,6 +54,7 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public CityDto getCityById(Long id) {
+        logger.info("Getting city by ID: " + id);
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT id, name, delivery_time " +
