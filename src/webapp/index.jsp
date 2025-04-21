@@ -33,6 +33,7 @@
 
         h2 {
             color: #34495e;
+            text-align: center;
             margin-top: 25px;
             padding-bottom: 10px;
             border-bottom: 1px solid #eaeaea;
