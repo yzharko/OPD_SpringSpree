@@ -9,5 +9,5 @@ public class RepositoryConstants {
     public static final String ERROR_IN_DELETE = "Ошибка при удалении";
     public static final String ERROR_IN_EXIST = "Ошибка при проверке";
     public static final String ROWS_ADDED = "Запись добавлена, затронуто строк: ";
-    public static final String ROWS_UPDATED= "Запись обновлена, затронуто строк: ";
+    public static final String ROWS_UPDATED = "Запись обновлена, затронуто строк: ";
 }
