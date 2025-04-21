@@ -46,13 +46,6 @@
             color: #34495e;
         }
 
-        /*h2 {*/
-        /*    color: #34495e;*/
-        /*    margin-top: 0;*/
-        /*    margin-bottom: 15px;*/
-        /*    font-weight: bold;*/
-        /*}*/
-
         input[type="number"] {
             padding: 10px;
             width: 100px;
