@@ -73,6 +73,9 @@
     <ul>
         <li><a href="manageCity.jsp">City Management</a></li>
     </ul>
+    <ul>
+        <li><a href="manageCategory.jsp">Category Management</a></li>
+    </ul>
 </div>
 </body>
 </html>

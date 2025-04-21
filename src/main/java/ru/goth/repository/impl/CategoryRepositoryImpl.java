@@ -158,7 +158,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             return null;
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, ERROR_IN_CHECK, e);
+            logger.log(Level.SEVERE, ERROR_IN_EXIST, e);
             return null;
         }
     }
