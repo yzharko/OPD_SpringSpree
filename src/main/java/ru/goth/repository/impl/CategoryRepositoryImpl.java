@@ -24,7 +24,7 @@ import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_BY_ID;
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_ALL;
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_CHECK;
+import static ru.goth.constants.RepositoryConstants.ERROR_IN_EXIST;
 import static ru.goth.constants.RepositoryConstants.ROWS_UPDATED;
 import static ru.goth.constants.RepositoryConstants.ROWS_ADDED;
 
@@ -158,7 +158,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             return null;
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, ERROR_IN_CHECK, e);
+            logger.log(Level.SEVERE, ERROR_IN_EXIST, e);
             return null;
         }
     }

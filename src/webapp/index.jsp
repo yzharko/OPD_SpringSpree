@@ -33,6 +33,7 @@
 
         h2 {
             color: #34495e;
+            text-align: center;
             margin-top: 25px;
             padding-bottom: 10px;
             border-bottom: 1px solid #eaeaea;
@@ -71,6 +72,9 @@
     <h2>Navigation</h2>
     <ul>
         <li><a href="manageCity.jsp">City Management</a></li>
+    </ul>
+    <ul>
+        <li><a href="manageCategory.jsp">Category Management</a></li>
     </ul>
 </div>
 </body>

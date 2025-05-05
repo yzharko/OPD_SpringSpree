@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "getCity", value = "/getCity")
 public class GetCity extends HttpServlet {
+
     private static final Logger logger = Logger.getLogger(GetCity.class.getName());
     private final CityService cityService;
     private final JsonConvertor<CityDto> cityDtoConvertor = new JsonConvertor<>();
