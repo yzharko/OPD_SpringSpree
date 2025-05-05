@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "deleteCategory", value = "/deleteCategory")
 public class DeleteCategory extends HttpServlet {
+
     private final CategoryService categoryService;
     private static final Logger logger = Logger.getLogger(DeleteCategory.class.getName());
 

@@ -138,8 +138,7 @@
                 <option value="Common">Common</option>
             </select>
         </div>
-
-
+        
         <input type="submit" value="Update Category">
     </form>
 

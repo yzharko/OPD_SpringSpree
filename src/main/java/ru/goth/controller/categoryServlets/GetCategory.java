@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "getCategory", value = "/getCategory")
 public class GetCategory extends HttpServlet {
+
     private static final Logger logger = Logger.getLogger(GetCategory.class.getName());
     private final CategoryService categoryService;
     private final JsonConvertor<CategoryDto> categoryDtoConvertor = new JsonConvertor<>();
