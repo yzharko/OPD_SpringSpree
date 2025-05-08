@@ -76,6 +76,9 @@
     <ul>
         <li><a href="manageCategory.jsp">Category Management</a></li>
     </ul>
+    <ul>
+        <li><a href="manageStep.jsp">Step Management</a></li>
+    </ul>
 </div>
 </body>
 </html>
