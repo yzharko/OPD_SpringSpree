@@ -4,7 +4,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.goth.config.JsonConvertor;
 import ru.goth.domain.dto.StepDto;
 import ru.goth.repository.impl.StepRepositoryImpl;
 import ru.goth.service.StepService;
@@ -16,19 +15,16 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "getStep", value = "/getStep")
 public class GetStep extends HttpServlet {
+
     private static final Logger logger = Logger.getLogger(GetStep.class.getName());
     private final StepService stepService;
-    private final JsonConvertor<StepDto> stepDtoConvertor = new JsonConvertor<>();
-    private final JsonConvertor<List<StepDto>> stepListConvertor = new JsonConvertor<>();
 
     public GetStep() { this.stepService = new StepServiceImpl(new StepRepositoryImpl()); }
-
     public GetStep(StepService stepService) { this.stepService = stepService; }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        response.setContentType("application/json");
         try {
             String action = request.getParameter("action");
             String stepId = request.getParameter("id");
