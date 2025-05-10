@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "getCustomer", value = "/getCustomer")
 public class GetCustomer extends HttpServlet {
+
     private static final Logger logger = Logger.getLogger(ru.goth.controller.customerServlets.GetCustomer.class.getName());
     private final CustomerService customerService;
     private final JsonConvertor<CustomerDto> customerDtoConvertor = new JsonConvertor<>();

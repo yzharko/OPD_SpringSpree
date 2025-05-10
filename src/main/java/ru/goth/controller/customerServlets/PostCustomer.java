@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet(name = "postCustomer", value = "/postCustomer")
 public class PostCustomer extends HttpServlet {
+
     private final CustomerService customerService;
 
     public PostCustomer() {

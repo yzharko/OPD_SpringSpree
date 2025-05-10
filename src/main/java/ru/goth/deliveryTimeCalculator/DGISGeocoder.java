@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class DGISGeocoder {
     public static double[] getCoordinates(String address, String apiKey) throws Exception {
+
         Locale.setDefault(Locale.US);
         String encodedAddress = URLEncoder.encode(address, StandardCharsets.UTF_8);
         String url = "https://catalog.api.2gis.com/3.0/items/geocode?q="
@@ -21,7 +22,6 @@ public class DGISGeocoder {
         String response = sendHttpGetRequest(url);
         JSONObject json = new JSONObject(response);
 
-        // Проверяем структуру ответа
         if (!json.has("result")) {
             throw new RuntimeException("Неверный формат ответа API");
         }
@@ -31,7 +31,6 @@ public class DGISGeocoder {
             throw new RuntimeException("Адрес не найден");
         }
 
-        // Получаем координаты из первого результата
         JSONObject firstItem = result.getJSONArray("items").getJSONObject(0);
         JSONObject point = firstItem.getJSONObject("point");
         return new double[]{point.getDouble("lon"), point.getDouble("lat")};
@@ -39,6 +38,7 @@ public class DGISGeocoder {
 
 
     private static String sendHttpGetRequest(String url) throws Exception {
+
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
         conn.setRequestMethod("GET");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {

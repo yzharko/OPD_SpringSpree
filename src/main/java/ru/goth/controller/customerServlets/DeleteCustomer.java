@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "deleteCustomer", value = "/deleteCustomer")
 public class DeleteCustomer extends HttpServlet {
+
     private final CustomerService customerService;
     private static final Logger logger = Logger.getLogger(ru.goth.controller.customerServlets.DeleteCustomer.class.getName());
 
