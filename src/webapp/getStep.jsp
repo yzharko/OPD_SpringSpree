@@ -58,7 +58,6 @@
             width: 200px;
             border: 1px solid #ddd;
             border-radius: 4px;
-
             box-sizing: border-box;
         }
 

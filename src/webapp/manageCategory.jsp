@@ -101,7 +101,7 @@
     <div class="actions">
         <div class="action-card">
             <h2>Get Category Information</h2>
-            <p>Search for existing cities by ID or view all cities</p>
+            <p>Search for existing Categories by ID or view all Categories</p>
             <a href="getCategory.jsp">Go to Get Category</a>
         </div>
 

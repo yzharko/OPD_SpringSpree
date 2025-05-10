@@ -1,6 +1,6 @@
 package ru.goth.controller.cityServlets;
 
-import ru.goth.config.JsonConvertor;
+//import ru.goth.config.JsonConvertor;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +19,8 @@ public class GetCity extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(GetCity.class.getName());
     private final CityService cityService;
-    private final JsonConvertor<CityDto> cityDtoConvertor = new JsonConvertor<>();
-    private final JsonConvertor<List<CityDto>> cityListConvertor = new JsonConvertor<>();
+    //private final JsonConvertor<CityDto> cityDtoConvertor = new JsonConvertor<>();
+    //private final JsonConvertor<List<CityDto>> cityListConvertor = new JsonConvertor<>();
 
     public GetCity() {
         this.cityService = new CityServiceImpl(new CityRepositoryImpl());
@@ -42,13 +42,17 @@ public class GetCity extends HttpServlet {
 
             if ("all".equals(action)) { // тут короче либо все города либо по ID
                 List<CityDto> cities = cityService.getAllCities();
-                cityListConvertor.convertToJson(response, cities);
+                request.setAttribute("cities", cities);
+                request.getRequestDispatcher("/getCity.jsp").forward(request, response);
+                //cityListConvertor.convertToJson(response, cities);
             } else if (idParam != null && !idParam.isEmpty()) {
                 long id = Long.parseLong(idParam);
                 CityDto city = cityService.getCityById(id);
 
                 if (city != null) {
-                    cityDtoConvertor.convertToJson(response, city);
+                    request.setAttribute("cities", List.of(city));
+                    request.getRequestDispatcher("/getCity.jsp").forward(request, response);
+                    //cityDtoConvertor.convertToJson(response, city);
                 } else {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     response.getWriter().write("{\"error\":\"City not found\"}");
