@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Category Management</title>
+    <title>Step Management</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -96,31 +96,31 @@
 </head>
 <body>
 <div class="container">
-    <h1>Category Management</h1>
+    <h1>Step Management</h1>
 
     <div class="actions">
         <div class="action-card">
-            <h2>Get Category Information</h2>
-            <p>Search for existing Categories by ID or view all Categories</p>
-            <a href="getCategory.jsp">Go to Get Category</a>
+            <h2>Get Step Information</h2>
+            <p>Search for existing Steps by ID or view all Steps</p>
+            <a href="getStep.jsp">Go to Get Step</a>
         </div>
 
         <div class="action-card">
-            <h2>Add New Category</h2>
-            <p>Create a new Category entry in the database</p>
-            <a href="postCategory.jsp">Go to Add Category</a>
+            <h2>Add New Step</h2>
+            <p>Create a new Step in the database</p>
+            <a href="postStep.jsp">Go to Add Step</a>
         </div>
 
         <div class="action-card">
-            <h2>Delete Category</h2>
-            <p>Remove a Category from the database</p>
-            <a href="deleteCategory.jsp">Go to Delete Category</a>
+            <h2>Delete Step</h2>
+            <p>Remove a Step from the database</p>
+            <a href="deleteStep.jsp">Go to Delete Step</a>
         </div>
 
         <div class="action-card">
-            <h2>Update Category</h2>
-            <p>Modify existing Category information</p>
-            <a href="updateCategory.jsp">Go to Update Category</a>
+            <h2>Update Step</h2>
+            <p>Modify existing Step information</p>
+            <a href="updateStep.jsp">Go to Update Step</a>
         </div>
     </div>
 

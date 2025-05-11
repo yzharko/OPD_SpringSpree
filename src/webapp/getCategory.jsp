@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
     <title>Category Search</title>
@@ -46,12 +47,18 @@
             color: #34495e;
         }
 
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         input[type="number"] {
             padding: 10px;
-            width: 100px;
+            width: 200px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-right: 10px;
+            box-sizing: border-box;
         }
 
         input[type="submit"] {
@@ -62,14 +69,11 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
 
         input[type="submit"]:hover {
             background-color: #287eb6;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
         }
 
         .back-link {
@@ -92,6 +96,37 @@
         .actions {
             text-align: center;
         }
+
+        .categories-table {
+            margin-top: 30px;
+        }
+
+        .categories-table h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #3497da;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 <body>
@@ -99,18 +134,46 @@
     <h1>Category Search</h1>
 
     <form action="getCategory" method="get">
-        <label>Get Category by ID:</label>
         <div class="form-group">
-            <input type="number" id="CategoryId" name="id" required min="1">
-            <input type="submit" value="Search by ID">
+            <label>Get Category by ID:</label>
+            <div class="input-group">
+                <input type="number" id="CategoryId" name="id" required min="1">
+                <input type="submit" value="Search by ID">
+            </div>
         </div>
     </form>
 
     <form action="getCategory" method="get">
-        <label>Get all cities:</label>
+        <label>Get all Categories:</label>
         <input type="hidden" name="action" value="all">
-        <input type="submit" value="Show all cities">
+        <input type="submit" value="Show all categories">
     </form>
+
+    <c:if test="${not empty categories}">
+        <div class="categories-table">
+            <h2>Categories List</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Hazard</th>
+                    <th>Rarity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="category" items="${categories}">
+                    <tr>
+                        <td>${category.id}</td>
+                        <td>${category.name}</td>
+                        <td>${category.hazard}</td>
+                        <td>${category.rarity}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </c:if>
 
     <div class="actions">
         <a href="manageCategory.jsp" class="back-link">← Back</a>
