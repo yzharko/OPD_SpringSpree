@@ -63,6 +63,7 @@
         a:hover {
             background-color: rgb(40, 126, 182);
         }
+
     </style>
 </head>
 <body>
@@ -72,6 +73,7 @@
     <h2>Navigation</h2>
     <ul>
         <li><a href="manageCity.jsp">City Management</a></li>
+        <li><a href="manageCustomer.jsp">Customer Management</a></li>
     </ul>
     <ul>
         <li><a href="manageCategory.jsp">Category Management</a></li>
