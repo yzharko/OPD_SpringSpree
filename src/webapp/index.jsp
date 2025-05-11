@@ -81,6 +81,9 @@
     <ul>
         <li><a href="manageMythology.jsp">Mythology Management</a></li>
     </ul>
+    <ul>
+        <li><a href="manageStep.jsp">Step Management</a></li>
+    </ul>
 </div>
 </body>
 </html>

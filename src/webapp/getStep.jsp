@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
-    <title>City Search</title>
+    <title>Step Search</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -61,6 +61,10 @@
             box-sizing: border-box;
         }
 
+        ::placeholder {
+            font-family: 'Arial', sans-serif;
+        }
+
         input[type="submit"] {
             padding: 10px 20px;
             background-color: #3497da;
@@ -97,11 +101,11 @@
             text-align: center;
         }
 
-        .cities-table {
+        .steps-table {
             margin-top: 30px;
         }
 
-        .cities-table h2 {
+        .steps-table h2 {
             color: #2c3e50;
             text-align: center;
             margin-bottom: 15px;
@@ -131,41 +135,42 @@
 </head>
 <body>
 <div class="container">
-    <h1>City Search</h1>
+    <h1>Step Search</h1>
 
-    <form action="getCity" method="get">
+    <form action="getStep" method="get">
         <div class="form-group">
-            <label>Get City by ID:</label>
+            <label>Get Step by ID:</label>
             <div class="input-group">
-                <input type="number" id="CityId" name="id" required min="1">
+                <input type="number" id="StepId" name="id" required min="1"
+                       placeholder="Enter Step ID (e.g. 1)">
                 <input type="submit" value="Search by ID">
             </div>
         </div>
     </form>
 
-    <form action="getCity" method="get">
-        <label>Get all cities:</label>
+    <form action="getStep" method="get">
+        <label>Get all Steps:</label>
         <input type="hidden" name="action" value="all">
-        <input type="submit" value="Show all cities">
+        <input type="submit" value="Show all steps">
     </form>
 
-    <c:if test="${not empty cities}">
-        <div class="cities-table">
-            <h2>Cities List</h2>
+    <c:if test="${not empty steps}">
+        <div class="steps-table">
+            <h2>Steps List</h2>
             <table>
                 <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Delivery Time</th>
+                    <th>Description</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="city" items="${cities}">
+                <c:forEach var="step" items="${steps}">
                     <tr>
-                        <td>${city.id}</td>
-                        <td>${city.name}</td>
-                        <td>${city.deliveryTime}</td>
+                        <td>${step.id}</td>
+                        <td>${step.name}</td>
+                        <td>${step.description}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -174,7 +179,7 @@
     </c:if>
 
     <div class="actions">
-        <a href="manageCity.jsp" class="back-link">← Back</a>
+        <a href="manageStep.jsp" class="back-link">← Back</a>
     </div>
 </div>
 </body>

@@ -15,6 +15,22 @@ services:
     ports:
       - "5433:5432"
     restart: unless-stopped
+
+  postgres_testing:
+    container_name: ${PG_TESTING_CONTAINER_NAME}
+    image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_TESTING_DB}
+      POSTGRES_USER: ${POSTGRES_TESTING_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_TESTING_PASSWORD}
+    volumes:
+      - pg_data2:/var/lib/postgresql/data
+      - ./src/main/resources/sql/01-createTables.sql:/docker-entrypoint-initdb.d/01-createTables.sql
+      - ./src/main/resources/sql/02-fillTables.sql:/docker-entrypoint-initdb.d/02-fillTables.sql
+    ports:
+      - "5431:5432"
+    restart: unless-stopped
+
 volumes:
   pg_data:
-    external: false
+  pg_data2:
