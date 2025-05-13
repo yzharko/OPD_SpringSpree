@@ -172,7 +172,7 @@ ALTER SEQUENCE public.category_id_seq OWNED BY public.category.id;
 CREATE TABLE public.city (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
-    delivery_time time without time zone
+    delivery_time integer
 );
 
 
@@ -453,10 +453,9 @@ COPY public.category (id, name, hazard, rarity) FROM stdin;
 --
 
 COPY public.city (id, name, delivery_time) FROM stdin;
-1	New York	01:30:00
-2	London	02:00:00
-3	Tokyo	03:00:00
-4	Miami	06:06:06
+1	New York	2353263
+2	London	30000
+3	Tokyo	234553
 \.
 
 
@@ -537,7 +536,7 @@ SELECT pg_catalog.setval('public.category_id_seq', 3, true);
 -- Name: city_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.city_id_seq', 4, true);
+SELECT pg_catalog.setval('public.city_id_seq', 3, true);
 
 
 --

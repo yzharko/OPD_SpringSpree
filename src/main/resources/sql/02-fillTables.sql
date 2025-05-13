@@ -9,9 +9,9 @@ INSERT INTO category (name, hazard, rarity) VALUES
 ('Artifact', 'Medium', 'Uncommon');
 
 INSERT INTO city (name, delivery_time) VALUES
-('New York', '01:30:00'),
-('London', '02:00:00'),
-('Tokyo', '03:00:00');
+('New York', 2353263),
+('London', 30000),
+('Tokyo', 234553);
 
 INSERT INTO step (name, description) VALUES
 ('Buy Placed', 'Customer submitted the buy'),

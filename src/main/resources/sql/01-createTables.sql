@@ -13,7 +13,7 @@ CREATE TABLE category (
 CREATE TABLE city (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-	delivery_time TIME
+	delivery_time INT
 );
 
 CREATE TABLE step (

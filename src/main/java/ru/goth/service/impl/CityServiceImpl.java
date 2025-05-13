@@ -1,6 +1,7 @@
 package ru.goth.service.impl;
 
 import ru.goth.domain.dto.CityDto;
+import ru.goth.repository.CityRepository;
 import ru.goth.repository.impl.CityRepositoryImpl;
 import ru.goth.service.CityService;
 
@@ -8,9 +9,9 @@ import java.util.List;
 
 public class CityServiceImpl implements CityService {
 
-    private final CityRepositoryImpl cityRepository;
+    private final CityRepository cityRepository;
 
-    public CityServiceImpl(CityRepositoryImpl cityRepository) {
+    public CityServiceImpl(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
 
@@ -50,6 +51,11 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public boolean deleteCity(Long id) {
-        return false;
+        return cityRepository.deleteCity(id);
+    }
+
+    @Override
+    public Long existCity(String name) {
+        return cityRepository.existCity(name);
     }
 }
