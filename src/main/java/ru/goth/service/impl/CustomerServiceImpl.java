@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDto> getAllCities() {
+    public List<CustomerDto> getAllCustomers() {
         return customerRepository.getAllCustomers();
     }
 

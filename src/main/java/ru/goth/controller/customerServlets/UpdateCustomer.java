@@ -26,11 +26,11 @@ public class UpdateCustomer extends HttpServlet {
 
         try {
             long id = Long.parseLong(request.getParameter("id"));
-            long cityId = Long.parseLong(request.getParameter("cityId"));
+            String cityName = request.getParameter("cityName");
             String name = request.getParameter("name");
             String email = request.getParameter("email");
 
-            CustomerDto customerDto = new CustomerDto(cityId, name, email);
+            CustomerDto customerDto = new CustomerDto(cityName, name, email);
             customerDto.setId(id);
 
             CustomerDto updatedCustomer = customerService.updateCustomer(id, customerDto);
@@ -41,7 +41,7 @@ public class UpdateCustomer extends HttpServlet {
                 response.sendRedirect("updateCustomer.jsp?error=Customer+not+found");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect("updateCustomer.jsp?error=Invalid+ID+or+delivery+time");
+            response.sendRedirect("updateCustomer.jsp?error=Invalid+ID");
         } catch (Exception e) {
             response.sendRedirect("updateCustomer.jsp?error=Server+error");
         }

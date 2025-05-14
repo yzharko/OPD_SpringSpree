@@ -41,8 +41,8 @@ public class GetCustomer extends HttpServlet {
             String idParam = request.getParameter("id");
 
             if ("all".equals(action)) {
-                List<CustomerDto> cities = customerService.getAllCities();
-                customerListConvertor.convertToJson(response, cities);
+                List<CustomerDto> customers = customerService.getAllCustomers();
+                customerListConvertor.convertToJson(response, customers);
             } else if (idParam != null && !idParam.isEmpty()) {
                 long id = Long.parseLong(idParam);
                 CustomerDto customer = customerService.getCustomerById(id);

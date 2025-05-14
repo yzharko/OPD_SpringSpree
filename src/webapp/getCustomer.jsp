@@ -109,7 +109,7 @@
     <form action="getCustomer" method="get">
         <label>Get all customers:</label>
         <input type="hidden" name="action" value="all">
-        <input type="submit" value="Show all cities">
+        <input type="submit" value="Show all customers">
     </form>
 
     <div class="actions">

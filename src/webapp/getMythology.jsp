@@ -107,9 +107,9 @@
     </form>
 
     <form action="getMythology" method="get">
-        <label>Get all cities:</label>
+        <label>Get all mythologies:</label>
         <input type="hidden" name="action" value="all">
-        <input type="submit" value="Show all cities">
+        <input type="submit" value="Show all mythologies">
     </form>
 
     <div class="actions">

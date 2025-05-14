@@ -10,7 +10,7 @@ public interface CustomerService {
 
     CustomerDto getCustomerById(Long id);
 
-    List<CustomerDto> getAllCities();
+    List<CustomerDto> getAllCustomers();
 
     CustomerDto updateCustomer(Long id, CustomerDto customerDto);
 
