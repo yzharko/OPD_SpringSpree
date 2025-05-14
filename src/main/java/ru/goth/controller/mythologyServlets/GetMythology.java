@@ -41,8 +41,8 @@ public class GetMythology extends HttpServlet {
             String idParam = request.getParameter("id");
 
             if ("all".equals(action)) {
-                List<MythologyDto> cities = mythologyService.getAllMythologies();
-                mythologyListConvertor.convertToJson(response, cities);
+                List<MythologyDto> mythologies = mythologyService.getAllMythologies();
+                mythologyListConvertor.convertToJson(response, mythologies);
             } else if (idParam != null && !idParam.isEmpty()) {
                 long id = Long.parseLong(idParam);
                 MythologyDto mythology = mythologyService.getMythologyById(id);
