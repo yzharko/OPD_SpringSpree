@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "deleteCity", value = "/deleteCity")
 public class DeleteCity extends HttpServlet {
+
     private final CityService cityService;
     private static final Logger logger = Logger.getLogger(DeleteCity.class.getName());
 

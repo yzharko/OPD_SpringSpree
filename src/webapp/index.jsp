@@ -33,6 +33,7 @@
 
         h2 {
             color: #34495e;
+            text-align: center;
             margin-top: 25px;
             padding-bottom: 10px;
             border-bottom: 1px solid #eaeaea;
@@ -62,6 +63,7 @@
         a:hover {
             background-color: rgb(40, 126, 182);
         }
+
     </style>
 </head>
 <body>
@@ -71,6 +73,16 @@
     <h2>Navigation</h2>
     <ul>
         <li><a href="manageCity.jsp">City Management</a></li>
+        <li><a href="manageCustomer.jsp">Customer Management</a></li>
+    </ul>
+    <ul>
+        <li><a href="manageCategory.jsp">Category Management</a></li>
+    </ul>
+    <ul>
+        <li><a href="manageMythology.jsp">Mythology Management</a></li>
+    </ul>
+    <ul>
+        <li><a href="manageStep.jsp">Step Management</a></li>
     </ul>
 </div>
 </body>
