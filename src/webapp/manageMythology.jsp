@@ -101,7 +101,7 @@
     <div class="actions">
         <div class="action-card">
             <h2>Get Mythology Information</h2>
-            <p>Search for existing cities by ID or view all cities</p>
+            <p>Search for existing mythologies by ID or view all mythologies</p>
             <a href="getMythology.jsp">Go to Get Mythology</a>
         </div>
 

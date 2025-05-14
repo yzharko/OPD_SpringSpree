@@ -47,7 +47,7 @@ public class StepRepositoryImpl implements StepRepository {
 
     @Override
     public StepDto getStepById(Long id) {
-        logger.info("Getting city by ID: " + id);
+        logger.info("Getting step by ID: " + id);
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT id, name, description FROM step WHERE id = ?")) {
@@ -69,7 +69,7 @@ public class StepRepositoryImpl implements StepRepository {
 
     @Override
     public List<StepDto> getAllSteps() {
-        logger.info("Getting all city steps");
+        logger.info("Getting all steps");
         try (Connection con = DBconfig.getConnection();
              PreparedStatement statement = con.prepareStatement(
                      "SELECT * FROM step");
