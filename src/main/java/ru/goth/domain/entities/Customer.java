@@ -6,6 +6,7 @@ import ru.goth.repository.impl.CityRepositoryImpl;
 import ru.goth.service.CityService;
 import ru.goth.service.impl.CityServiceImpl;
 
+import java.sql.Connection;
 import java.util.Objects;
 
 public class Customer {
@@ -25,6 +26,22 @@ public class Customer {
 
     public Customer(String cityName, String name, String email) {
         CityService serv = new CityServiceImpl(new CityRepositoryImpl());
+        Long cityId = serv.existCity(cityName);
+
+        if (cityId == null) {
+            Long time = DeliveryTimeCalculator.getMinutes(cityName);
+            CityDto dto = new CityDto(cityName, time);
+            serv.createCity(dto);
+        }
+
+        cityId = serv.existCity(cityName);
+        this.city_id = cityId;
+        this.name = name;
+        this.email = email;
+    }
+
+    public Customer(Connection connection, String cityName, String name, String email) {
+        CityService serv = new CityServiceImpl(new CityRepositoryImpl(connection));
         Long cityId = serv.existCity(cityName);
 
         if (cityId == null) {
