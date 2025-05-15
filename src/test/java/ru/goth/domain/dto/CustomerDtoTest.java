@@ -19,11 +19,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Testcontainers
 public class CustomerDtoTest {
 
+    private static final Long TEST_ID = 1L;
+    private static final String TEST_NAME = "test_name";
+    private static final Long TEST_CITY_ID = 1L;
+    private static final String TEST_CITY_NAME = "test_city_name";
+    private static final String TEST_EMAIL = "test_email";
+    private static final Long TEST_DELIVERY_TIME = 500L;
+    private static final String TESTCONTAINER_DATA = "DB_Test";
+
     @Container
     private final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15.2")
-            .withDatabaseName("DB_Test")
-            .withUsername("DB_Test")
-            .withPassword("DB_Test");
+            .withDatabaseName(TESTCONTAINER_DATA)
+            .withUsername(TESTCONTAINER_DATA)
+            .withPassword(TESTCONTAINER_DATA);
 
     private Connection connection;
     private CityRepository cityRepository;
@@ -64,30 +72,30 @@ public class CustomerDtoTest {
 
     @Test
     void shouldCreateCustomerWithNewCity() {
-        assertNull(cityRepository.existCity("Berlin"));
+        assertNull(cityRepository.existCity(TEST_CITY_NAME));
 
-        CustomerDto customer = new CustomerDto(connection,"Berlin", "Max", "max@test.com");
+        CustomerDto customer = new CustomerDto(connection,TEST_CITY_NAME, TEST_NAME, TEST_EMAIL);
 
         assertNotNull(customer.getCityId());
-        assertNotNull(cityRepository.existCity("Berlin"));
+        assertNotNull(cityRepository.existCity(TEST_CITY_NAME));
     }
 
     @Test
     void shouldUseExistingCity() {
-        CityDto existingCity = new CityDto("Paris", 45L);
+        CityDto existingCity = new CityDto(TEST_CITY_NAME, TEST_DELIVERY_TIME);
         cityRepository.createCity(existingCity.getId(), existingCity.getName(), existingCity.getDeliveryTime());
-        Long parisId = cityRepository.existCity("Paris");
+        Long parisId = cityRepository.existCity(TEST_CITY_NAME);
 
-        CustomerDto customer = new CustomerDto(connection,"Paris", "Alice", "alice@test.com");
+        CustomerDto customer = new CustomerDto(connection,TEST_CITY_NAME, TEST_NAME, TEST_EMAIL);
 
         assertEquals(parisId, customer.getCityId());
     }
 
     @Test
     void constructorWithCityId_SetsFieldsCorrectly() {
-        Long cityId = 1L;
-        String name = "John Doe";
-        String email = "john@example.com";
+        Long cityId = TEST_CITY_ID;
+        String name = TEST_NAME;
+        String email = TEST_EMAIL;
 
         CustomerDto customer = new CustomerDto(cityId, name, email);
 
@@ -97,13 +105,12 @@ public class CustomerDtoTest {
     }
 
     @Test
-    void copyConstructor_CopiesAllFields() {
-        // Given
+    void copyConstructorTest() {
         CustomerDto original = new CustomerDto();
-        original.setId(1L);
-        original.setCityId(10L);
-        original.setName("Eve");
-        original.setEmail("eve@example.com");
+        original.setId(TEST_ID);
+        original.setCityId(TEST_CITY_ID);
+        original.setName(TEST_NAME);
+        original.setEmail(TEST_EMAIL);
 
         CustomerDto copy = new CustomerDto(original);
 
@@ -114,17 +121,48 @@ public class CustomerDtoTest {
     }
 
     @Test
-    void gettersAndSetters_WorkCorrectly() {
+    void setIdTest() {
         CustomerDto customer = new CustomerDto();
+        customer.setId(TEST_ID);
+            assertEquals(TEST_ID, customer.getId());
+    }
 
-        customer.setId(5L);
-        customer.setCityId(20L);
-        customer.setName("Test");
-        customer.setEmail("test@example.com");
+    @Test
+    void setNameTest() {
+        CustomerDto customer = new CustomerDto();
+        customer.setName(TEST_NAME);
+        assertEquals(TEST_NAME, customer.getName());
+    }
 
-        assertEquals(5L, customer.getId());
-        assertEquals(20L, customer.getCityId());
-        assertEquals("Test", customer.getName());
-        assertEquals("test@example.com", customer.getEmail());
+    @Test
+    void getNameTest() {
+        CustomerDto customer = new CustomerDto(TEST_CITY_ID, TEST_NAME, TEST_EMAIL);
+        assertEquals(TEST_NAME, customer.getName());
+    }
+
+    @Test
+    void setCityIdTest() {
+        CustomerDto customer = new CustomerDto();
+        customer.setCityId(TEST_CITY_ID);
+        assertEquals(TEST_CITY_ID, customer.getCityId());
+    }
+
+    @Test
+    void getCityIdTest() {
+        CustomerDto customer = new CustomerDto(TEST_CITY_ID, TEST_NAME, TEST_EMAIL);
+        assertEquals(TEST_CITY_ID, customer.getCityId());
+    }
+
+    @Test
+    void setEmailTest() {
+        CustomerDto customer = new CustomerDto();
+        customer.setEmail(TEST_EMAIL);
+        assertEquals(TEST_EMAIL, customer.getEmail());
+    }
+
+    @Test
+    void getEmailTest() {
+        CustomerDto customer = new CustomerDto(TEST_CITY_ID, TEST_NAME, TEST_EMAIL);
+        assertEquals(TEST_EMAIL, customer.getEmail());
     }
 }
