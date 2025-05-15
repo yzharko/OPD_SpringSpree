@@ -103,7 +103,17 @@ public class CityRepositoryImplTest {
     }
 
     @Test
-    public void createAndGetCityTest() throws SQLException {
+    public void createCityTest() {
+        CityDto createdCity = cityRepository.createCity(1L, "TEST_CITY", 24L);
+
+        assertNotNull(createdCity, "Созданный город не должен быть null");
+        assertEquals(1L, createdCity.getId(), "ID созданного города не совпадает");
+        assertEquals("TEST_CITY", createdCity.getName(), "Название города не совпадает");
+        assertEquals(24L, createdCity.getDeliveryTime(), "Время доставки не совпадает");
+    }
+
+    @Test
+    public void getCityByIdTest() {
         CityDto createdCity = cityRepository.createCity(1L, "TEST_CITY", 24L);
 
         CityDto retrievedCity = cityRepository.getCityById(1L);
@@ -146,7 +156,6 @@ public class CityRepositoryImplTest {
 
         printCityById(1L);
         assertTrue(isDeleted);
-        //assertNull(cityRepository.getCityById(1L)); //-> это уебище дает ложную инфу
     }
 
     @Test

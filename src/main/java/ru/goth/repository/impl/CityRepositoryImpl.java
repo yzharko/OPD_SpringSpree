@@ -26,8 +26,6 @@ import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_ALL;
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
 import static ru.goth.constants.RepositoryConstants.ERROR_IN_EXIST;
-import static ru.goth.constants.RepositoryConstants.ROWS_UPDATED;
-import static ru.goth.constants.RepositoryConstants.ROWS_ADDED;
 
 public class CityRepositoryImpl implements CityRepository {
 
@@ -54,7 +52,6 @@ public class CityRepositoryImpl implements CityRepository {
             statement.setString(1, city.getName());
             statement.setLong(2, city.getDeliveryTime());
             int rowsAffected = statement.executeUpdate();
-            logger.info(ROWS_ADDED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, ERROR_IN_CREATE, e);
@@ -64,7 +61,6 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public CityDto getCityById(Long id) {
-        logger.info("Getting city by ID: " + id);
         try (PreparedStatement statement = this.connection.prepareStatement(
                 "SELECT id, name, delivery_time " +
                         "FROM city " +
@@ -119,7 +115,6 @@ public class CityRepositoryImpl implements CityRepository {
 
             int rowsAffected = statement.executeUpdate();
 
-            logger.info(ROWS_UPDATED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, ERROR_IN_UPDATE, e);
