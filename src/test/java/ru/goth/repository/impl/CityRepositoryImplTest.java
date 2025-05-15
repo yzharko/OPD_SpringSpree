@@ -1,28 +1,39 @@
 package ru.goth.repository.impl;
 
+import ru.goth.domain.dto.CityDto;
+import ru.goth.repository.CityRepository;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import ru.goth.domain.dto.CityDto;
-import ru.goth.repository.CityRepository;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
 
-import java.sql.*;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @Testcontainers
 public class CityRepositoryImplTest {
 
+    private static final String TEST_PARAMETER = "DB_Test";
+
     @Container
     private final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15.2")
-            .withDatabaseName("DB_Test")
-            .withUsername("DB_Test")
-            .withPassword("DB_Test");
+            .withDatabaseName(TEST_PARAMETER)
+            .withUsername(TEST_PARAMETER)
+            .withPassword(TEST_PARAMETER);
 
     private Connection connection;
     private CityRepository cityRepository;
@@ -92,7 +103,7 @@ public class CityRepositoryImplTest {
     }
 
     @Test
-    public void testCreateAndGetCity() throws SQLException {
+    public void createAndGetCityTest() throws SQLException {
         CityDto createdCity = cityRepository.createCity(1L, "TEST_CITY", 24L);
 
         CityDto retrievedCity = cityRepository.getCityById(1L);
@@ -103,7 +114,7 @@ public class CityRepositoryImplTest {
     }
 
     @Test
-    public void testGetAllCities() {
+    public void getAllCitiesTest() {
         cityRepository.createCity(1L, "TEST_CITY", 24L);
         cityRepository.createCity(2L, "TEST_CITY_2", 48L);
 
@@ -113,7 +124,7 @@ public class CityRepositoryImplTest {
     }
 
     @Test
-    public void testUpdateCity() {
+    public void updateCityTest() {
         cityRepository.createCity(1L, "TEST_CITY", 24L);
 
         CityDto updatedCity = cityRepository.updateCity(1L, "NEW TEST_CITY", 12L);
@@ -126,7 +137,7 @@ public class CityRepositoryImplTest {
     }
 
     @Test
-    public void testDeleteCity() throws SQLException {
+    public void deleteCityTest() throws SQLException {
         printCityById(1L);
         cityRepository.createCity(1L, "TEST_CITY", 24L);
 
@@ -139,7 +150,7 @@ public class CityRepositoryImplTest {
     }
 
     @Test
-    public void testExistCity() {
+    public void existCityTest() {
         cityRepository.createCity(1L, "TEST_CITY", 24L);
 
         Long existingId = cityRepository.existCity("TEST_CITY");

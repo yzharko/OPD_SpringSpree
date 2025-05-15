@@ -1,12 +1,13 @@
 package ru.goth.service.impl;
 
+import ru.goth.domain.dto.CityDto;
+import ru.goth.repository.CityRepository;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.goth.domain.dto.CityDto;
-import ru.goth.repository.CityRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -33,7 +35,7 @@ class CityServiceImplTest {
     private final Long TEST_DELIVERY_TIME = 2L;
 
     @Test
-    void createCity() {
+    void createCityTest() {
         CityDto inputDto = new CityDto(TEST_NAME, TEST_DELIVERY_TIME);
         inputDto.setId(TEST_ID);
 
@@ -53,7 +55,7 @@ class CityServiceImplTest {
     }
 
     @Test
-    void getCityById() {
+    void getCityByIdTest() {
         CityDto mockDto = new CityDto(TEST_NAME, TEST_DELIVERY_TIME);
         mockDto.setId(TEST_ID);
 
@@ -67,7 +69,7 @@ class CityServiceImplTest {
     }
 
     @Test
-    void getAllCities() {
+    void getAllCitiesTest() {
         CityDto mockDto = new CityDto(TEST_NAME, TEST_DELIVERY_TIME);
         mockDto.setId(TEST_ID);
 
@@ -82,7 +84,7 @@ class CityServiceImplTest {
     }
 
     @Test
-    void updateCity() {
+    void updateCityTest() {
         CityDto inputDto = new CityDto(TEST_NAME, TEST_DELIVERY_TIME);
         inputDto.setId(TEST_ID);
 
@@ -102,7 +104,7 @@ class CityServiceImplTest {
     }
 
     @Test
-    void deleteCity() {
+    void deleteCityTest() {
         when(cityRepository.deleteCity(anyLong())).thenReturn(true);
 
         boolean result = cityService.deleteCity(TEST_ID);
@@ -112,7 +114,7 @@ class CityServiceImplTest {
     }
 
     @Test
-    void existCity() {
+    void existCityTest() {
         when(cityRepository.existCity(anyString())).thenReturn(TEST_ID);
 
         Long result = cityService.existCity(TEST_NAME);

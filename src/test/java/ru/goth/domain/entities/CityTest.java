@@ -13,47 +13,47 @@ class CityTest {
     private static final Long TEST_DELIVERY_TIME_AN = 3L;
 
     @Test
-    void getId() {
+    void getIdTest() {
         City city = new City();
         city.setId(TEST_ID);
         assertEquals(TEST_ID, city.getId());
     }
 
     @Test
-    void setId() {
+    void setIdTest() {
         City city = new City();
         city.setId(TEST_ID);
         assertEquals(TEST_ID, city.getId());
     }
 
     @Test
-    void getName() {
+    void getNameTest() {
         City city = new City(TEST_NAME, TEST_DELIVERY_TIME);
         assertEquals(TEST_NAME, city.getName());
     }
 
     @Test
-    void setName() {
+    void setNameTest() {
         City city = new City();
         city.setName(TEST_NAME);
         assertEquals(TEST_NAME, city.getName());
     }
 
     @Test
-    void getDeliveryTime() {
+    void getDeliveryTimeTest() {
         City city = new City(TEST_NAME, TEST_DELIVERY_TIME);
         assertEquals(TEST_DELIVERY_TIME, city.getDeliveryTime());
     }
 
     @Test
-    void setDeliveryTime() {
+    void setDeliveryTimeTest() {
         City city = new City();
         city.setDeliveryTime(TEST_DELIVERY_TIME);
         assertEquals(TEST_DELIVERY_TIME, city.getDeliveryTime());
     }
 
     @Test
-    void testEquals() {
+    void equalsTest() {
         City city1 = new City(TEST_NAME, TEST_DELIVERY_TIME);
         city1.setId(TEST_ID);
 
@@ -63,27 +63,23 @@ class CityTest {
         City city3 = new City(TEST_NAME_AN, TEST_DELIVERY_TIME_AN);
         city3.setId(TEST_ID_AN);
 
-        // Рефлексивность
         assertEquals(city1, city1);
 
-        // Симметричность
         assertEquals(city1, city2);
         assertEquals(city2, city1);
 
-        // Транзитивность
         City city4 = new City(TEST_NAME, TEST_DELIVERY_TIME);
         city4.setId(TEST_ID);
         assertEquals(city2, city4);
         assertEquals(city1, city4);
 
-        // Неравенство
         assertNotEquals(city1, city3);
         assertNotEquals(city1, null);
         assertNotEquals(city1, new Object());
     }
 
     @Test
-    void testHashCode() {
+    void hashCodeTest() {
         City city1 = new City(TEST_NAME, TEST_DELIVERY_TIME);
         city1.setId(TEST_ID);
 
@@ -93,18 +89,15 @@ class CityTest {
         City city3 = new City(TEST_NAME_AN, TEST_DELIVERY_TIME_AN);
         city3.setId(TEST_ID_AN);
 
-        // Постоянство
         assertEquals(city1.hashCode(), city1.hashCode());
 
-        // Равенство объектов -> равенство хэш-кодов
         assertEquals(city1.hashCode(), city2.hashCode());
 
-        // Разные объекты (обычно) должны иметь разные хэш-коды
         assertNotEquals(city1.hashCode(), city3.hashCode());
     }
 
     @Test
-    void testToString() {
+    void toStringTest() {
         City city = new City(TEST_NAME, TEST_DELIVERY_TIME);
         city.setId(TEST_ID);
 
