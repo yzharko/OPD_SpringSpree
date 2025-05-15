@@ -32,6 +32,15 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     Logger logger = Logger.getLogger(getClass().getName());
     private final CustomerMapper customerMapper = new CustomerMapperImpl();
+    private final Connection connection;
+
+    public CustomerRepositoryImpl() {
+        this.connection = DBconfig.getConnection();
+    }
+
+    public CustomerRepositoryImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public CustomerDto createCustomer(Long id, String cityName, String name, String email) {
@@ -46,8 +55,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
         cityId = serv.existCity(cityName);
 
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "INSERT INTO customer (city_id, name, email) " +
                              "VALUES (?, ?, ?)")) {
             Customer customer = new Customer(cityId, name, email);
@@ -64,9 +72,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         }
     }
 
+    @Override
     public CustomerDto createCustomer(Long id, Long cityId, String name, String email) {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "INSERT INTO customer (city_id, name, email) " +
                              "VALUES (?, ?, ?)")) {
             Customer customer = new Customer(cityId, name, email);
@@ -85,8 +93,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public CustomerDto getCustomerById(Long id) {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "SELECT id, city_id, name, email " +
                              "FROM customer " +
                              "WHERE id = ?")) {
@@ -108,8 +115,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public List<CustomerDto> getAllCustomers() {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "SELECT * FROM customer");
              ResultSet rs = statement.executeQuery()) {
             List<CustomerDto> lcd = new ArrayList<>();
@@ -140,8 +146,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         }
 
         cityId = serv.existCity(cityName);
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement statement = conn.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "UPDATE customer " +
                              "SET city_id = ?, name = ?, email = ?" +
                              "WHERE id = ?")) {
@@ -161,9 +166,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         }
     }
 
+    @Override
     public CustomerDto updateCustomer(Long id, Long cityId, String name, String email) {
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement statement = conn.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "UPDATE customer " +
                              "SET city_id = ?, name = ?, email = ?" +
                              "WHERE id = ?")) {
@@ -185,8 +190,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public boolean deleteCustomer(Long id) {
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM customer WHERE id = ?")) {
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement("DELETE FROM customer WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
@@ -199,8 +203,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Override
     public Long existCustomer(String name) {
         Long id = null;
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("SELECT id FROM customer WHERE name = ?")) {
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT id FROM customer WHERE name = ?")) {
 
             preparedStatement.setString(1, name);
             ResultSet rs = preparedStatement.executeQuery();

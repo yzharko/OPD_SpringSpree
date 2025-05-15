@@ -2,7 +2,6 @@ package ru.goth.repository;
 
 import ru.goth.domain.dto.CityDto;
 
-import java.sql.Time;
 import java.util.List;
 
 public interface CityRepository {
