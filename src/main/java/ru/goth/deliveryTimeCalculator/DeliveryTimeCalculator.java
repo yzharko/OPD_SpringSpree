@@ -12,8 +12,8 @@ public class DeliveryTimeCalculator {
     public static Long getMinutes(String cityName) {
 
         try {
-            String lat = Double.toString(DGISGeocoder.getCoordinates(cityName, "1ce1bb8a-5231-4ad6-a336-0aa753c5e892")[0]);
-            String lon = Double.toString(DGISGeocoder.getCoordinates(cityName, "1ce1bb8a-5231-4ad6-a336-0aa753c5e892")[1]);
+            String lat = Double.toString(DGISGeocoder.getCoordinates(cityName, "832149c7-1ea2-4b10-a5b6-be1cdb412d83")[0]);
+            String lon = Double.toString(DGISGeocoder.getCoordinates(cityName, "832149c7-1ea2-4b10-a5b6-be1cdb412d83")[1]);
 
             String point1 = "30.404074,60.004942";
             String point2 = lat + "," + lon;

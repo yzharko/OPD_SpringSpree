@@ -20,11 +20,8 @@ import java.sql.Connection;
 import ru.goth.domain.mappers.CustomerMapperImpl;
 import ru.goth.repository.CustomerRepository;
 import ru.goth.service.CityService;
-import ru.goth.service.CustomerService;
 import ru.goth.service.impl.CityServiceImpl;
-import ru.goth.service.impl.CustomerServiceImpl;
 import ru.goth.deliveryTimeCalculator.DeliveryTimeCalculator;
-import ru.goth.deliveryTimeCalculator.DGISGeocoder;
 
 import static ru.goth.constants.RepositoryConstants.*;
 
@@ -44,7 +41,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public CustomerDto createCustomer(Long id, String cityName, String name, String email) {
-        CityService serv = new CityServiceImpl(new CityRepositoryImpl());
+        CityService serv = new CityServiceImpl(new CityRepositoryImpl(this.connection));
         Long cityId = serv.existCity(cityName);
 
         if (cityId == null) {
@@ -106,6 +103,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 customer.setName(resultSet.getString("name"));
                 customer.setEmail(resultSet.getString("email"));
             }
+            if (customer.getId() == null) {
+                return null;
+            }
             return customerMapper.toCustomerDto(customer);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, ERROR_IN_READ_BY_ID, e);
@@ -136,7 +136,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public CustomerDto updateCustomer(Long id, String cityName, String name, String email) {
-        CityService serv = new CityServiceImpl(new CityRepositoryImpl());
+        CityService serv = new CityServiceImpl(new CityRepositoryImpl(this.connection));
         Long cityId = serv.existCity(cityName);
 
         if (cityId == null) {
@@ -148,7 +148,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         cityId = serv.existCity(cityName);
         try (PreparedStatement statement = this.connection.prepareStatement(
                      "UPDATE customer " +
-                             "SET city_id = ?, name = ?, email = ?" +
+                             "SET city_id = ?, name = ?, email = ? " +
                              "WHERE id = ?")) {
             Customer customer = new Customer(cityId, name, email);
             customer.setId(id);
