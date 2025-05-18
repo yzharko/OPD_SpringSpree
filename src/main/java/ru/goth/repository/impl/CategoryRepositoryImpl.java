@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.Statement;
 
 import ru.goth.domain.dto.CategoryDto;
 import ru.goth.domain.entities.Category;
@@ -30,14 +31,23 @@ import static ru.goth.constants.RepositoryConstants.ROWS_ADDED;
 
 public class CategoryRepositoryImpl implements CategoryRepository {
 
-    private static final Logger logger = Logger.getLogger(CategoryRepositoryImpl.class.getName());
+    Logger logger = Logger.getLogger(getClass().getName());
     private final CategoryMapper categoryMapper = new CategoryMapperImpl();
+    private final Connection connection;
+
+    public CategoryRepositoryImpl() {
+        this.connection = DBconfig.getConnection();
+    }
+
+    public CategoryRepositoryImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public CategoryDto createCategory(Long id, String name, String hazard, String rarity) {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
-                     "INSERT INTO category (name, hazard, rarity) VALUES (?, ?, ?)")) {
+        try (PreparedStatement statement = this.connection.prepareStatement(
+                     "INSERT INTO category (name, hazard, rarity) VALUES (?, ?, ?)",
+                Statement.RETURN_GENERATED_KEYS)) {
 
             Category category = new Category(name, hazard, rarity);
             category.setId(id);
@@ -58,8 +68,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public CategoryDto getCategoryById(Long id) {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "SELECT id, name, hazard, rarity FROM category WHERE id = ?")) {
 
             statement.setLong(1, id);
@@ -82,8 +91,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public List<CategoryDto> getAllCategories() {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement("SELECT * FROM category");
+        try (PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM category");
              ResultSet rs = statement.executeQuery()) {
 
             List<CategoryDto> categories = new ArrayList<>();
@@ -105,8 +113,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public CategoryDto updateCategory(Long id, String name, String hazard, String rarity) {
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement statement = conn.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "UPDATE category SET name = ?, hazard = ?, rarity = ? WHERE id = ?")) {
 
             Category category = new Category(name, hazard, rarity);
@@ -129,12 +136,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public boolean deleteCategory(Long id) {
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "DELETE FROM category WHERE id = ?")) {
 
-            preparedStatement.setLong(1, id);
-            int rowsAffected = preparedStatement.executeUpdate();
+            statement.setLong(1, id);
+            int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
 
         } catch (SQLException e) {
@@ -145,12 +151,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Long existCategory(String name) {
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "SELECT id FROM category WHERE name = ?")) {
 
-            preparedStatement.setString(1, name);
-            ResultSet rs = preparedStatement.executeQuery();
+            statement.setString(1, name);
+            ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
                 return rs.getLong("id");
