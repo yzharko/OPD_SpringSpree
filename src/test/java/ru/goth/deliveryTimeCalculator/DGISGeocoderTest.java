@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class DGISGeocoderTest {
+public class DGISGeocoderTest {
 
     private static final String TEST_ADDRESS = "Москва";
     private static final String TEST_WRONG_ADDRESS = "Бубубе";

@@ -106,7 +106,10 @@ public class Customer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        if (name != null) {
+            return 31 * 31 * city_id.hashCode() + 31 * city_id.hashCode() + email.hashCode();
+        }
+        return 0;
     }
 
     @Override

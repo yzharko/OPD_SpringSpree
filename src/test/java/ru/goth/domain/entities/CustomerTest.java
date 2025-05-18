@@ -35,6 +35,7 @@ public class CustomerTest {
 
     private Connection connection;
     private CityRepository cityRepository;
+
     @BeforeEach
     public void setUp() throws Exception {
         postgreSQLContainer.start();
