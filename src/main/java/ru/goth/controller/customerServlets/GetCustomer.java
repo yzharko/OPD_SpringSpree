@@ -1,6 +1,5 @@
 package ru.goth.controller.customerServlets;
 
-import ru.goth.config.JsonConvertor;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +18,6 @@ public class GetCustomer extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(ru.goth.controller.customerServlets.GetCustomer.class.getName());
     private final CustomerService customerService;
-    private final JsonConvertor<CustomerDto> customerDtoConvertor = new JsonConvertor<>();
-    private final JsonConvertor<List<CustomerDto>> customerListConvertor = new JsonConvertor<>();
 
     public GetCustomer() {
         this.customerService = new CustomerServiceImpl(new CustomerRepositoryImpl());
@@ -33,22 +30,21 @@ public class GetCustomer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-
-        response.setContentType("application/json");
-
         try {
             String action = request.getParameter("action");
             String idParam = request.getParameter("id");
 
             if ("all".equals(action)) {
                 List<CustomerDto> customers = customerService.getAllCustomers();
-                customerListConvertor.convertToJson(response, customers);
+                request.setAttribute("customers", customers);
+                request.getRequestDispatcher("/getCustomer.jsp").forward(request, response);
             } else if (idParam != null && !idParam.isEmpty()) {
                 long id = Long.parseLong(idParam);
                 CustomerDto customer = customerService.getCustomerById(id);
 
                 if (customer != null) {
-                    customerDtoConvertor.convertToJson(response, customer);
+                    request.setAttribute("customers", List.of(customer));
+                    request.getRequestDispatcher("/getCustomer.jsp").forward(request, response);
                 } else {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     response.getWriter().write("{\"error\":\"Customer not found\"}");
