@@ -72,36 +72,6 @@ public class CityRepositoryImplTest {
         postgreSQLContainer.stop();
     }
 
-    private void printAllCities() throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM city");
-             ResultSet rs = statement.executeQuery()) {
-            System.out.println("Содержимое таблицы cities:");
-            while (rs.next()) {
-                System.out.printf("id=%d, name=%s, delivery_time=%d%n",
-                        rs.getLong("id"),
-                        rs.getString("name"),
-                        rs.getLong("delivery_time"));
-            }
-        }
-    }
-
-    private void printCityById(Long id) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT id, name, delivery_time FROM city WHERE id = ?")) {
-            statement.setLong(1, id);
-
-            try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    System.out.printf("Город с ID %d:%n", id);
-                    System.out.printf("  Название: %s%n", rs.getString("name"));
-                    System.out.printf("  Время доставки: %d часов%n", rs.getLong("delivery_time"));
-                } else {
-                    System.out.printf("Город с ID %d не найден%n", id);
-                }
-            }
-        }
-    }
-
     @Test
     public void createCityTest() {
         CityDto createdCity = cityRepository.createCity(1L, "TEST_CITY", 24L);
@@ -148,13 +118,10 @@ public class CityRepositoryImplTest {
 
     @Test
     public void deleteCityTest() throws SQLException {
-        printCityById(1L);
         cityRepository.createCity(1L, "TEST_CITY", 24L);
 
-        printCityById(1L);
         boolean isDeleted = cityRepository.deleteCity(1L);
 
-        printCityById(1L);
         assertTrue(isDeleted);
     }
 

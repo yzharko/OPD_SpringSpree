@@ -1,0 +1,94 @@
+package ru.goth.controller.cityServlets;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.goth.service.CityService;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.anyString;
+
+@ExtendWith(MockitoExtension.class)
+class DeleteCityTest {
+
+    private static final String CITY_ID = "123";
+    private static final String ID = "id";
+    private static final Long LONG_ID = 123L;
+
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private HttpServletResponse response;
+
+    @Mock
+    private CityService cityService;
+
+    @InjectMocks
+    private DeleteCity deleteCity;
+
+    @Test
+    void doPost_ShouldDeleteCityAndRedirectOnSuccess() throws IOException {
+        when(request.getParameter(ID)).thenReturn(CITY_ID);
+        when(cityService.deleteCity(LONG_ID)).thenReturn(true);
+
+        deleteCity.doPost(request, response);
+
+        verify(cityService).deleteCity(LONG_ID);
+        verify(response).sendRedirect("manageCity.jsp?success=delete");
+    }
+
+    @Test
+    void doPost_ShouldHandleNotFoundCity() throws IOException {
+        when(request.getParameter(ID)).thenReturn(CITY_ID);
+        when(cityService.deleteCity(LONG_ID)).thenReturn(false);
+
+        deleteCity.doPost(request, response);
+
+        verify(cityService).deleteCity(LONG_ID);
+        verify(response).sendRedirect("manageCity.jsp?error=not_found");
+    }
+
+    @Test
+    void doPost_ShouldHandleInvalidIdFormat() throws IOException {
+        when(request.getParameter(ID)).thenReturn("invalid");
+
+        deleteCity.doPost(request, response);
+
+        verify(cityService, never()).deleteCity(anyLong());
+        verify(response).sendRedirect("manageCity.jsp?error=invalid_id");
+    }
+
+    @Test
+    void doPost_ShouldHandleServiceException() throws IOException {
+        when(request.getParameter(ID)).thenReturn(CITY_ID);
+        when(cityService.deleteCity(LONG_ID))
+                .thenThrow(new RuntimeException("Database error"));
+
+        deleteCity.doPost(request, response);
+
+        verify(cityService).deleteCity(LONG_ID);
+        verify(response).sendRedirect("manageCity.jsp?error=server_error");
+    }
+
+    @Test
+    void doPost_ShouldHandleIOException() throws IOException {
+        when(request.getParameter(ID)).thenReturn(CITY_ID);
+        when(cityService.deleteCity(LONG_ID)).thenReturn(true);
+        doThrow(new IOException("Redirect failed")).when(response).sendRedirect(anyString());
+
+        assertThrows(IOException.class, () -> deleteCity.doPost(request, response));
+    }
+}
