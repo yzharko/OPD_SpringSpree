@@ -1,31 +1,20 @@
 package ru.goth.repository.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
+import ru.goth.config.DBconfig;
+import ru.goth.domain.dto.CityDto;
+import ru.goth.domain.entities.City;
+import ru.goth.domain.mappers.CityMapper;
+import ru.goth.domain.mappers.CityMapperImpl;
+import ru.goth.repository.CityRepository;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ru.goth.domain.dto.CityDto;
-import ru.goth.domain.entities.City;
-import ru.goth.config.DBconfig;
-import ru.goth.domain.mappers.CityMapper;
-import ru.goth.domain.mappers.CityMapperImpl;
-
-import ru.goth.repository.CityRepository;
-
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_CREATE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_BY_ID;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_ALL;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_EXIST;
+import static ru.goth.constants.RepositoryConstants.*;
 
 public class CityRepositoryImpl implements CityRepository {
 
@@ -103,9 +92,11 @@ public class CityRepositoryImpl implements CityRepository {
     @Override
     public CityDto updateCity(Long id, String name, Long deliveryTime) {
         try (PreparedStatement statement = this.connection.prepareStatement(
-                "UPDATE city " +
-                        "SET name = ?, delivery_time = ? " +
-                        "WHERE id = ?")) {
+                """
+                        UPDATE city
+                                                SET name = ?, delivery_time = ?
+                                                WHERE id = ?
+                        """)) {
             City city = new City(name, deliveryTime);
             city.setId(id);
 

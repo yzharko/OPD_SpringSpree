@@ -114,7 +114,7 @@ public class CityRepositoryImplTest {
 
     @Test
     public void getCityByIdTest() {
-        CityDto createdCity = cityRepository.createCity(1L, "TEST_CITY", 24L);
+        cityRepository.createCity(1L, "TEST_CITY", 24L);
 
         CityDto retrievedCity = cityRepository.getCityById(1L);
 

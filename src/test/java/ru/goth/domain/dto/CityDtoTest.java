@@ -11,14 +11,7 @@ class CityDtoTest {
     private static final Long TEST_DELIVERY_TIME = 2L;
 
     @Test
-    void getIdTest() {
-        CityDto cityDto = new CityDto();
-        cityDto.setId(TEST_ID);
-        assertEquals(TEST_ID, cityDto.getId());
-    }
-
-    @Test
-    void setIdTest() {
+    void getSetIdTest() {
         CityDto cityDto = new CityDto();
         cityDto.setId(TEST_ID);
         assertEquals(TEST_ID, cityDto.getId());
