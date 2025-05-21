@@ -93,6 +93,10 @@
             margin-bottom: 15px;
             text-align: center;
         }
+
+        .actions {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -124,7 +128,7 @@
         <input type="submit" value="Update City">
     </form>
 
-    <div style="text-align: right; margin-top: 20px;">
+    <div class="actions">
         <a href="manageCity.jsp" class="back-link">← Back</a>
     </div>
 </div>
