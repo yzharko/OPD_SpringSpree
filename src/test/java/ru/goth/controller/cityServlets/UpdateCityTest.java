@@ -8,11 +8,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import ru.goth.domain.dto.CityDto;
 import ru.goth.service.CityService;
+import ru.goth.service.impl.CityServiceImpl;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.eq;
@@ -21,8 +28,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doThrow;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateCityTest {
@@ -46,6 +51,24 @@ class UpdateCityTest {
     @BeforeEach
     void setUp() {
         updateCity = new UpdateCity(cityService); // Используем mock вместо реального сервиса
+    }
+
+    @Test
+    void postCityDefaultConstructor_ShouldInitializeCityService() {
+        UpdateCity updateCity = new UpdateCity();
+
+        assertNotNull(updateCity);
+
+        try {
+            Field field = UpdateCity.class.getDeclaredField("cityService");
+            field.setAccessible(true);
+            CityService service = (CityService) field.get(updateCity);
+
+            assertNotNull(service);
+            assertTrue(service instanceof CityServiceImpl);
+        } catch (Exception e) {
+            fail("Failed to access cityService field", e);
+        }
     }
 
     @Test

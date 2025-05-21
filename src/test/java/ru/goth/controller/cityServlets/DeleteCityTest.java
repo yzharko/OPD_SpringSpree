@@ -8,11 +8,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.goth.service.CityService;
+import ru.goth.service.impl.CityServiceImpl;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.never;
@@ -38,6 +40,24 @@ class DeleteCityTest {
 
     @InjectMocks
     private DeleteCity deleteCity;
+
+    @Test
+    void postCityDefaultConstructor_ShouldInitializeCityService() {
+        DeleteCity deleteCity = new DeleteCity();
+
+        assertNotNull(deleteCity);
+
+        try {
+            Field field = DeleteCity.class.getDeclaredField("cityService");
+            field.setAccessible(true);
+            CityService service = (CityService) field.get(deleteCity);
+
+            assertNotNull(service);
+            assertTrue(service instanceof CityServiceImpl);
+        } catch (Exception e) {
+            fail("Failed to access cityService field", e);
+        }
+    }
 
     @Test
     void doPost_ShouldDeleteCityAndRedirectOnSuccess() throws IOException {

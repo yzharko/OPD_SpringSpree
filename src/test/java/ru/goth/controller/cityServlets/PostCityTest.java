@@ -8,12 +8,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import ru.goth.domain.dto.CityDto;
 import ru.goth.service.CityService;
+import ru.goth.service.impl.CityServiceImpl;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.doThrow;
@@ -43,6 +46,24 @@ public class PostCityTest {
     @BeforeEach
     void setUp() {
         postCity = new PostCity(cityService);
+    }
+
+    @Test
+    void postCityDefaultConstructor_ShouldInitializeCityService() {
+        PostCity postCity = new PostCity();
+
+        assertNotNull(postCity);
+
+        try {
+            Field field = PostCity.class.getDeclaredField("cityService");
+            field.setAccessible(true);
+            CityService service = (CityService) field.get(postCity);
+
+            assertNotNull(service);
+            assertTrue(service instanceof CityServiceImpl);
+        } catch (Exception e) {
+            fail("Failed to access cityService field", e);
+        }
     }
 
     @Test
