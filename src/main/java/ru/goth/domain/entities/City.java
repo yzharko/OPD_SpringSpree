@@ -2,8 +2,6 @@ package ru.goth.domain.entities;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 public class City {
