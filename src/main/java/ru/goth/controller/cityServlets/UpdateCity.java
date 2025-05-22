@@ -20,6 +20,10 @@ public class UpdateCity extends HttpServlet {
         this.cityService = new CityServiceImpl(new CityRepositoryImpl());
     }
 
+    public UpdateCity(CityService cityService) {
+        this.cityService = cityService;
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -28,6 +32,10 @@ public class UpdateCity extends HttpServlet {
             long id = Long.parseLong(request.getParameter("id"));
             String name = request.getParameter("name");
             long deliveryTime = Long.parseLong(request.getParameter("deliveryTime"));
+
+            if (name == null) {
+                response.sendRedirect("updateCity.jsp?error=Server+error");
+            }
 
             CityDto cityDto = new CityDto(name, deliveryTime);
             cityDto.setId(id);

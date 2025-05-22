@@ -27,12 +27,17 @@ public class PostStep extends HttpServlet {
             String name = request.getParameter("name");
             String description = request.getParameter("description");
 
+            if (name == null || name.isEmpty() || description == null || description.isEmpty()) {
+                response.sendRedirect("postStep.jsp?error=true");
+                return;
+            }
+
             StepDto stepDto = new StepDto(name, description);
             stepService.createStep(stepDto);
 
             response.sendRedirect("manageStep.jsp?success=true");
         } catch (Exception e) {
-            response.sendRedirect("manageStep.jsp?error=true");
+            response.sendRedirect("postStep.jsp?error=true");
         }
     }
 }

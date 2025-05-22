@@ -18,6 +18,8 @@ public class UpdateStep extends HttpServlet {
 
     public UpdateStep() { this.stepService = new StepServiceImpl(new StepRepositoryImpl()); }
 
+    public UpdateStep(StepService stepService) {this.stepService = stepService; }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -25,6 +27,10 @@ public class UpdateStep extends HttpServlet {
             long id = Long.parseLong(request.getParameter("id"));
             String name = request.getParameter("name");
             String description = request.getParameter("description");
+
+            if (name == null || name.isEmpty() || description == null || description.isEmpty()) {
+                response.sendRedirect("updateStep.jsp?error=Server+error");
+            }
 
             StepDto stepDto = new StepDto(name, description);
             stepDto.setId(id);
@@ -34,12 +40,12 @@ public class UpdateStep extends HttpServlet {
             if (updatedStep != null) {
                 response.sendRedirect("manageStep.jsp?success=Step+updated");
             } else {
-                response.sendRedirect("manageStep.jsp?error=Step+not+found");
+                response.sendRedirect("updateStep.jsp?error=Step+not+found");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect("manageStep.jsp?error=Invalid+ID");
+            response.sendRedirect("updateStep.jsp?error=Invalid+ID+or+description");
         } catch (Exception e) {
-            response.sendRedirect("manageStep.jsp?error=Server+error");
+            response.sendRedirect("updateStep.jsp?error=Server+error");
         }
     }
 }

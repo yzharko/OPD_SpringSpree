@@ -2,7 +2,6 @@ package ru.goth.service.impl;
 
 import ru.goth.domain.dto.CityDto;
 import ru.goth.repository.CityRepository;
-import ru.goth.repository.impl.CityRepositoryImpl;
 import ru.goth.service.CityService;
 
 import java.util.List;

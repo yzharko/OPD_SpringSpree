@@ -2,9 +2,6 @@ package ru.goth.domain.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-
 public class CityDto {
 
     private Long id;
