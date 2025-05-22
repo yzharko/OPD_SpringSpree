@@ -1,50 +1,46 @@
 package ru.goth.repository.impl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import ru.goth.config.DBconfig;
+import ru.goth.domain.dto.CityDto;
+import ru.goth.domain.entities.City;
+import ru.goth.domain.mappers.CityMapper;
+import ru.goth.domain.mappers.CityMapperImpl;
+import ru.goth.repository.CityRepository;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ru.goth.domain.dto.CityDto;
-import ru.goth.domain.entities.City;
-import ru.goth.config.DBconfig;
-import ru.goth.domain.mappers.CityMapper;
-import ru.goth.domain.mappers.CityMapperImpl;
-
-import java.sql.Connection;
-
-import ru.goth.repository.CityRepository;
-
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_CREATE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_BY_ID;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_ALL;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_EXIST;
-import static ru.goth.constants.RepositoryConstants.ROWS_UPDATED;
-import static ru.goth.constants.RepositoryConstants.ROWS_ADDED;
+import static ru.goth.constants.RepositoryConstants.*;
 
 public class CityRepositoryImpl implements CityRepository {
 
     Logger logger = Logger.getLogger(getClass().getName());
     private final CityMapper cityMapper = new CityMapperImpl();
+    private final Connection connection;
+
+    public CityRepositoryImpl() {
+        this.connection = DBconfig.getConnection();
+    }
+
+    public CityRepositoryImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public CityDto createCity(Long id, String name, Long deliveryTime) {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
-                     "INSERT INTO city (name, delivery_time) " +
-                             "VALUES (?, ?)")) {
+        try (PreparedStatement statement = this.connection.prepareStatement(
+                "INSERT INTO city (name, delivery_time) " +
+                        "VALUES (?, ?)",
+                Statement.RETURN_GENERATED_KEYS)) {
             City city = new City(name, deliveryTime);
             city.setId(id);
             statement.setString(1, city.getName());
             statement.setLong(2, city.getDeliveryTime());
             int rowsAffected = statement.executeUpdate();
-            logger.info(ROWS_ADDED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, ERROR_IN_CREATE, e);
@@ -54,15 +50,12 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public CityDto getCityById(Long id) {
-        logger.info("Getting city by ID: " + id);
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
-                     "SELECT id, name, delivery_time " +
-                             "FROM city " +
-                             "WHERE id = ?")) {
+        try (PreparedStatement statement = this.connection.prepareStatement(
+                "SELECT id, name, delivery_time " +
+                        "FROM city " +
+                        "WHERE id = ?")) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-
 
             City city = new City();
             while (resultSet.next()) {
@@ -79,9 +72,7 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public List<CityDto> getAllCities() {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
-                     "SELECT * FROM city");
+        try (PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM city");
              ResultSet rs = statement.executeQuery()) {
             List<CityDto> lcd = new ArrayList<>();
             while (rs.next()) {
@@ -100,19 +91,21 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public CityDto updateCity(Long id, String name, Long deliveryTime) {
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement statement = conn.prepareStatement(
-                     "UPDATE city " +
-                             "SET name = ?, delivery_time = ? " +
-                             "WHERE id = ?")) {
+        try (PreparedStatement statement = this.connection.prepareStatement(
+                """
+                        UPDATE city
+                                                SET name = ?, delivery_time = ?
+                                                WHERE id = ?
+                        """)) {
             City city = new City(name, deliveryTime);
             city.setId(id);
 
             statement.setString(1, city.getName());
             statement.setLong(2, city.getDeliveryTime());
             statement.setLong(3, city.getId());
+
             int rowsAffected = statement.executeUpdate();
-            logger.info(ROWS_UPDATED + rowsAffected);
+
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, ERROR_IN_UPDATE, e);
@@ -122,8 +115,8 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public boolean deleteCity(Long id) {
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM city WHERE id = ?")) {
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(
+                "DELETE FROM city WHERE id = ?")) {
             preparedStatement.setLong(1, id);
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
@@ -136,9 +129,8 @@ public class CityRepositoryImpl implements CityRepository {
     @Override
     public Long existCity(String name) {
         Long id = null;
-        try (Connection conn = DBconfig.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("SELECT id FROM city WHERE name = ?")) {
-
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(
+                "SELECT id FROM city WHERE name = ?")) {
             preparedStatement.setString(1, name);
             ResultSet rs = preparedStatement.executeQuery();
 
