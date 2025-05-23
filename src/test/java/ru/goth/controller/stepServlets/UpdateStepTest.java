@@ -75,7 +75,7 @@ class UpdateStepTest {
     void doPost_ShouldUpdateStepAndRedirectOnSuccess() throws IOException {
         lenient().when(request.getParameter("id")).thenReturn(String.valueOf(TEST_ID));
         lenient().when(request.getParameter("name")).thenReturn(TEST_NAME);
-        lenient().when(request.getParameter("deliveryTime")).thenReturn(String.valueOf(TEST_DESCRIPTION));
+        lenient().when(request.getParameter("description")).thenReturn(TEST_DESCRIPTION);
 
         StepDto expectedDto = new StepDto(TEST_NAME, TEST_DESCRIPTION);
         expectedDto.setId(TEST_ID);
@@ -116,7 +116,7 @@ class UpdateStepTest {
     void doPost_ShouldHandleMissingNameParameter() throws IOException {
         lenient().when(request.getParameter("id")).thenReturn(String.valueOf(TEST_ID));
         lenient().when(request.getParameter("name")).thenReturn(null);
-        lenient().when(request.getParameter("deliveryTime")).thenReturn(String.valueOf(TEST_DESCRIPTION));
+        lenient().when(request.getParameter("description")).thenReturn(TEST_DESCRIPTION);
 
         updateStep.doPost(request, response);
 
@@ -141,7 +141,7 @@ class UpdateStepTest {
     void doPost_ShouldHandleIOException() throws IOException {
         lenient().when(request.getParameter("id")).thenReturn(String.valueOf(TEST_ID));
         lenient().when(request.getParameter("name")).thenReturn(TEST_NAME);
-        lenient().when(request.getParameter("deliveryTime")).thenReturn(String.valueOf(TEST_DESCRIPTION));
+        lenient().when(request.getParameter("description")).thenReturn(TEST_DESCRIPTION);
 
         StepDto expectedDto = new StepDto(TEST_NAME, TEST_DESCRIPTION);
         expectedDto.setId(TEST_ID);
