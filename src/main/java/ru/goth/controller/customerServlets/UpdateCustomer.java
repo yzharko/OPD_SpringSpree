@@ -20,6 +20,11 @@ public class UpdateCustomer extends HttpServlet {
         this.customerService = new CustomerServiceImpl(new CustomerRepositoryImpl());
     }
 
+    public UpdateCustomer(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {

@@ -13,6 +13,7 @@ import ru.goth.service.CustomerService;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -42,6 +43,18 @@ public class PostCustomerTest {
     @BeforeEach
     void setUp() {
         postCustomer = new PostCustomer(customerService);
+    }
+
+    @Test
+    void testDefaultConstructor() {
+        PostCustomer servlet = new PostCustomer();
+        assertNotNull(servlet);
+    }
+
+    @Test
+    void testConstructorWithService() {
+        PostCustomer servlet = new PostCustomer(customerService);
+        assertNotNull(servlet);
     }
 
     @Test

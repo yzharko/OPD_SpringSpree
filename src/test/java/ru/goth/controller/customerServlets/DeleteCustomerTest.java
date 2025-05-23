@@ -11,6 +11,7 @@ import ru.goth.service.CustomerService;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -33,6 +34,18 @@ class DeleteCustomerTest {
 
     @InjectMocks
     private DeleteCustomer deleteCustomer;
+
+    @Test
+    void testDefaultConstructor() {
+        DeleteCustomer servlet = new DeleteCustomer();
+        assertNotNull(servlet);
+    }
+
+    @Test
+    void testConstructorWithService() {
+        DeleteCustomer servlet = new DeleteCustomer(customerService);
+        assertNotNull(servlet);
+    }
 
     @Test
     void doPost_ShouldDeleteCustomerAndRedirectOnSuccess() throws IOException {
