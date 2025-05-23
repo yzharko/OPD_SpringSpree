@@ -37,7 +37,7 @@ public class GetCity extends HttpServlet {
             String action = request.getParameter("action");
             String idParam = request.getParameter("id");
 
-            if ("all".equals(action)) { // тут короче либо все города либо по ID
+            if ("all".equals(action)) {
                 List<CityDto> cities = cityService.getAllCities();
                 request.setAttribute("cities", cities);
                 request.getRequestDispatcher("/getCity.jsp").forward(request, response);

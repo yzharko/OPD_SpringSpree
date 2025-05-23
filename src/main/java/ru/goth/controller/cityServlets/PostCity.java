@@ -32,6 +32,11 @@ public class PostCity extends HttpServlet {
             String name = request.getParameter("name");
             long deliveryTime = Long.parseLong(request.getParameter("deliveryTime"));
 
+            if (name == null || name.isEmpty()) {
+                response.sendRedirect("postCity.jsp?error=true");
+                return;
+            }
+
             CityDto cityDto = new CityDto(name, deliveryTime);
             cityService.createCity(cityDto);
 

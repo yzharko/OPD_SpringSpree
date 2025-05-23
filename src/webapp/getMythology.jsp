@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
     <title>Mythology Search</title>
@@ -46,12 +47,18 @@
             color: #34495e;
         }
 
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         input[type="number"] {
             padding: 10px;
-            width: 100px;
+            width: 200px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-right: 10px;
+            box-sizing: border-box;
         }
 
         input[type="submit"] {
@@ -62,14 +69,11 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
 
         input[type="submit"]:hover {
             background-color: #287eb6;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
         }
 
         .back-link {
@@ -92,6 +96,37 @@
         .actions {
             text-align: center;
         }
+
+        .mythologies-table {
+            margin-top: 30px;
+        }
+
+        .mythologies-table h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #3497da;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 <body>
@@ -99,10 +134,12 @@
     <h1>Mythology Search</h1>
 
     <form action="getMythology" method="get">
-        <label>Get mythology by ID:</label>
         <div class="form-group">
-            <input type="number" id="mythologyId" name="id" required min="1">
-            <input type="submit" value="Search by ID">
+            <label>Get mythology by ID:</label>
+            <div class="input-group">
+                <input type="number" id="mythologyId" name="id" required min="1">
+                <input type="submit" value="Search by ID">
+            </div>
         </div>
     </form>
 
@@ -111,6 +148,28 @@
         <input type="hidden" name="action" value="all">
         <input type="submit" value="Show all mythologies">
     </form>
+
+    <c:if test="${not empty mythologies}">
+        <div class="mythologies-table">
+            <h2>Mythologies List</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="mythology" items="${mythologies}">
+                    <tr>
+                        <td>${mythology.id}</td>
+                        <td>${mythology.name}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </c:if>
 
     <div class="actions">
         <a href="manageMythology.jsp" class="back-link">← Back</a>

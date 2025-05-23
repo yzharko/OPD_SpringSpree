@@ -23,11 +23,19 @@ public class StepRepositoryImpl implements StepRepository {
 
     Logger logger = Logger.getLogger(StepRepositoryImpl.class.getName());
     private final StepMapper stepMapper = new StepMapperImpl();
+    private final Connection connection;
+
+    public StepRepositoryImpl() {
+        this.connection = DBconfig.getConnection();
+    }
+
+    public StepRepositoryImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public StepDto createStep(Long id, String name, String description) {
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "INSERT INTO step (name, description) VALUES (?, ?)")) {
 
             Step step = new Step(name, description);
@@ -47,9 +55,7 @@ public class StepRepositoryImpl implements StepRepository {
 
     @Override
     public StepDto getStepById(Long id) {
-        logger.info("Getting step by ID: " + id);
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "SELECT id, name, description FROM step WHERE id = ?")) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -70,8 +76,7 @@ public class StepRepositoryImpl implements StepRepository {
     @Override
     public List<StepDto> getAllSteps() {
         logger.info("Getting all steps");
-        try (Connection con = DBconfig.getConnection();
-             PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                      "SELECT * FROM step");
              ResultSet resultSet = statement.executeQuery()) {
 
@@ -92,8 +97,7 @@ public class StepRepositoryImpl implements StepRepository {
 
     @Override
     public StepDto updateStep(Long id, String name, String description) {
-        try (Connection con = DBconfig.getConnection();
-            PreparedStatement statement = con.prepareStatement(
+        try (PreparedStatement statement = this.connection.prepareStatement(
                     "UPDATE step SET name = ?, description = ? WHERE id = ?")) {
             Step step = new Step(name, description);
             step.setId(id);
@@ -112,8 +116,8 @@ public class StepRepositoryImpl implements StepRepository {
 
     @Override
     public boolean deleteStep(Long id) {
-        try (Connection con = DBconfig.getConnection();
-            PreparedStatement statement = con.prepareStatement("DELETE FROm step WHERE id = ?")) {
+        try (PreparedStatement statement = this.connection.prepareStatement(
+                "DELETE FROm step WHERE id = ?")) {
             statement.setLong(1, id);
             int rowAffected = statement.executeUpdate();
             return rowAffected > 0;
@@ -126,8 +130,8 @@ public class StepRepositoryImpl implements StepRepository {
     @Override
     public Long existStep(String name) {
         Long id = null;
-        try (Connection con = DBconfig.getConnection();
-            PreparedStatement statement = con.prepareStatement("SELECT id FROM step WHERE name = ?")) {
+        try (PreparedStatement statement = this.connection.prepareStatement(
+                "SELECT id FROM step WHERE name = ?")) {
 
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();

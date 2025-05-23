@@ -1,5 +1,12 @@
 package ru.goth.repository.impl;
 
+import ru.goth.config.DBconfig;
+import ru.goth.domain.dto.CityDto;
+import ru.goth.domain.entities.City;
+import ru.goth.domain.mappers.CityMapper;
+import ru.goth.domain.mappers.CityMapperImpl;
+import ru.goth.repository.CityRepository;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,22 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ru.goth.domain.dto.CityDto;
-import ru.goth.domain.entities.City;
-import ru.goth.config.DBconfig;
-import ru.goth.domain.mappers.CityMapper;
-import ru.goth.domain.mappers.CityMapperImpl;
-
-import ru.goth.repository.CityRepository;
-
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_CREATE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_BY_ID;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_READ_ALL;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_UPDATE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_DELETE;
-import static ru.goth.constants.RepositoryConstants.ERROR_IN_EXIST;
-import static ru.goth.constants.RepositoryConstants.ROWS_UPDATED;
-import static ru.goth.constants.RepositoryConstants.ROWS_ADDED;
+import static ru.goth.constants.RepositoryConstants.*;
 
 public class CityRepositoryImpl implements CityRepository {
 
@@ -49,7 +41,6 @@ public class CityRepositoryImpl implements CityRepository {
             statement.setString(1, city.getName());
             statement.setLong(2, city.getDeliveryTime());
             int rowsAffected = statement.executeUpdate();
-            logger.info(ROWS_ADDED + rowsAffected);
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, ERROR_IN_CREATE, e);
@@ -59,14 +50,12 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public CityDto getCityById(Long id) {
-        logger.info("Getting city by ID: " + id);
         try (PreparedStatement statement = this.connection.prepareStatement(
                 "SELECT id, name, delivery_time " +
                         "FROM city " +
                         "WHERE id = ?")) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-
 
             City city = new City();
             while (resultSet.next()) {
@@ -103,17 +92,20 @@ public class CityRepositoryImpl implements CityRepository {
     @Override
     public CityDto updateCity(Long id, String name, Long deliveryTime) {
         try (PreparedStatement statement = this.connection.prepareStatement(
-                "UPDATE city " +
-                        "SET name = ?, delivery_time = ? " +
-                        "WHERE id = ?")) {
+                """
+                        UPDATE city
+                                                SET name = ?, delivery_time = ?
+                                                WHERE id = ?
+                        """)) {
             City city = new City(name, deliveryTime);
             city.setId(id);
 
             statement.setString(1, city.getName());
             statement.setLong(2, city.getDeliveryTime());
             statement.setLong(3, city.getId());
+
             int rowsAffected = statement.executeUpdate();
-            logger.info(ROWS_UPDATED + rowsAffected);
+
             return cityMapper.toCityDto(city);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, ERROR_IN_UPDATE, e);
