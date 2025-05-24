@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import ru.goth.domain.dto.CategoryDto;
 import ru.goth.repository.impl.CategoryRepositoryImpl;
 import ru.goth.service.CategoryService;
+
 import ru.goth.service.impl.CategoryServiceImpl;
 
 import java.io.IOException;
@@ -19,6 +20,9 @@ public class UpdateCategory extends HttpServlet {
     public UpdateCategory() {
         this.categoryService = new CategoryServiceImpl(new CategoryRepositoryImpl());
     }
+    public UpdateCategory(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -29,6 +33,10 @@ public class UpdateCategory extends HttpServlet {
             String name = request.getParameter("name");
             String hazard = request.getParameter("hazard");
             String rarity = request.getParameter("rarity");
+
+            if (name == null || name.isEmpty() || hazard == null || hazard.isEmpty() || rarity == null || rarity.isEmpty()) {
+                response.sendRedirect("updateCategory.jsp?error=Server+error");
+            }
 
             CategoryDto categoryDto = new CategoryDto(name, hazard, rarity);
             categoryDto.setId(id);
@@ -41,7 +49,7 @@ public class UpdateCategory extends HttpServlet {
                 response.sendRedirect("updateCategory.jsp?error=Category+not+found");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect("updateCategory.jsp?error=Invalid+ID+or+delivery+time");
+            response.sendRedirect("updateCategory.jsp?error=Invalid+ID+or+hazard+or+rarity");
         } catch (Exception e) {
             response.sendRedirect("updateCategory.jsp?error=Server+error");
         }

@@ -33,6 +33,11 @@ public class PostCategory extends HttpServlet {
             String hazard = request.getParameter("hazard");
             String rarity = request.getParameter("rarity");
 
+            if (name == null || name.isEmpty() || hazard == null || hazard.isEmpty() || rarity == null || rarity.isEmpty()) {
+                response.sendRedirect("postCategory.jsp?error=true");
+                return;
+            }
+
             CategoryDto categoryDto = new CategoryDto(name, hazard, rarity);
             categoryService.createCategory(categoryDto);
 

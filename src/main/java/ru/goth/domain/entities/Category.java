@@ -64,7 +64,7 @@ public class Category {
     @Override
     public int hashCode() {
         if (name != null) {
-            return 31 * name.hashCode() + hazard.hashCode() + rarity.hashCode();
+            return 31^2 * name.hashCode() + 31 * hazard.hashCode() + rarity.hashCode();
         }
         return 0;
     }
