@@ -50,7 +50,7 @@ class UpdateCityTest {
 
     @BeforeEach
     void setUp() {
-        updateCity = new UpdateCity(cityService); // Используем mock вместо реального сервиса
+        updateCity = new UpdateCity(cityService);
     }
 
     @Test
