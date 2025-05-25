@@ -1,18 +1,20 @@
 package ru.goth.domain.entities;
 
-import java.sql.Time;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 public class City {
 
     private Long id;
     private String name;
-    private Time deliveryTime;
+    @SerializedName("delivery_time")
+    private Long deliveryTime;
 
     public City() {
     }
 
-    public City(String name, Time deliveryTime) {
+    public City(String name, Long deliveryTime) {
         this.name = name;
         this.deliveryTime = deliveryTime;
     }
@@ -33,11 +35,11 @@ public class City {
         this.name = name;
     }
 
-    public Time getDeliveryTime() {
+    public Long getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Time deliveryTime) {
+    public void setDeliveryTime(Long deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 
