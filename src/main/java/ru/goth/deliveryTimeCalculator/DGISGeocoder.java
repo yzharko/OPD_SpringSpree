@@ -37,7 +37,7 @@ public class DGISGeocoder {
     }
 
 
-    private static String sendHttpGetRequest(String url) throws Exception {
+    static String sendHttpGetRequest(String url) throws Exception {
 
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
         conn.setRequestMethod("GET");
